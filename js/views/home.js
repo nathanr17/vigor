@@ -100,6 +100,12 @@ export function HomeView() {
       </div>
     </${Card}>
 
+    ${dayIndex(today) >= 5 && !hasMeals(s.plans[addDays(wk, 7)]) ? html`<a class="card next-week" href="#/plan/week/next">
+      <span class="next-week-emoji">🥡</span>
+      <span><b>Plan next week</b><span class="muted small">Pick 2–3 meals now so your grocery list is ready for Sunday prep.</span></span>
+      <${Icon} name="right" size=${18} cls="muted" />
+    </a>` : null}
+
     <!-- Today's menu -->
     <${Card} title="Today's menu" action=${html`<a class="link" href="#/plan">Plan</a>`}>
       ${Object.keys(todayPlan).length ? html`<div class="menu-list">
@@ -115,7 +121,7 @@ export function HomeView() {
             <button class=${'check-btn ' + (done ? 'on' : '')} disabled=${done} aria-label=${done ? 'Logged' : 'Log this meal'} onClick=${() => logPlanned(x.id, it)}><${Icon} name="check" size=${18} /></button>
           </div>`;
         })}
-      </div>` : html`<${Empty} icon="calendar" title="No meals planned for today" body="Plan your week to get a menu, a prep list and a grocery list." action=${html`<a class="btn primary" href="#/plan">Plan my week</a>`} />`}
+      </div>` : html`<${Empty} icon="calendar" title="No meals planned yet" body="Pick 2–3 meals to prep this week. Your menu, prep list and grocery list are built from them." action=${html`<a class="btn primary" href="#/plan">Set up my week</a>`} />`}
     </${Card}>
 
     <!-- This week -->
@@ -175,6 +181,8 @@ export function HomeView() {
     </${Card}>
   </div>`;
 }
+
+const hasMeals = (plan) => !!plan && Object.values(plan.days || {}).some((d) => Object.keys(d).length);
 
 const MacroBar = ({ label, value, max, color, plus }) => html`<div class="macro-bar">
   <div class="macro-bar-top"><span>${label}</span><span><b>${fmtNum(value)}</b><span class="muted"> / ${fmtNum(max)}${plus ? '+' : ''} g</span></span></div>

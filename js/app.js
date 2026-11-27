@@ -56,7 +56,7 @@ function App() {
 
   let view;
   switch (tab) {
-    case 'plan': view = html`<${PlanView} sub=${sub} />`; break;
+    case 'plan': view = html`<${PlanView} sub=${sub} extra=${extra} />`; break;
     case 'log': view = html`<${LogView} sub=${sub} />`; break;
     case 'recipes': view = sub ? html`<${RecipeDetail} id=${sub} key=${sub} />` : html`<${RecipesView} />`; break;
     case 'more': view = html`<${MoreView} sub=${sub} />`; break;

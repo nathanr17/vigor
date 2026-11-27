@@ -1,14 +1,15 @@
-import { html, useState } from '../../vendor/preact-htm.js';
+import { html, useState, useEffect, useMemo } from '../../vendor/preact-htm.js';
 import { S, actions, update } from '../store.js';
-import { targets, avoidSet } from '../stats.js';
-import { SLOTS, SLOT_BY_ID, RECIPE_BY_ID, analyze, dayTotals, itemTotals, generateWeek, buildGrocery, prepList } from '../nutrition.js';
+import { targets, avoidSet, isExcluded } from '../stats.js';
+import { RECIPES, SLOTS, SLOT_BY_ID, RECIPE_BY_ID, analyze, dayTotals, itemTotals, buildWeek, poolFor, suggestRecipes, buildGrocery, prepList } from '../nutrition.js';
 import { todayISO, weekStart, weekDays, addDays, dowShort, fmtMonthDay, fmtWeekRange, fmtNum, fmtQty, dayIndex } from '../util.js';
 import { Icon, Header, Card, Segmented, Sheet, Stepper, Chip, Progress, Empty, FodBadge, toast, confirmAction } from '../ui.js';
-import { RecipePicker } from './common.js';
+import { RecipePicker, RecipeRow } from './common.js';
 
-export function PlanView({ sub }) {
+export function PlanView({ sub, extra }) {
   const tab = ['week', 'prep', 'grocery'].includes(sub) ? sub : 'week';
-  const [wk, setWk] = useState(weekStart());
+  const [wk, setWk] = useState(extra === 'next' ? addDays(weekStart(), 7) : weekStart());
+  useEffect(() => { if (extra === 'next') setWk(addDays(weekStart(), 7)); }, [extra]);
   const thisWk = weekStart();
   return html`<div class="page">
     <${Header} title="Plan" />
@@ -34,9 +35,19 @@ function WeekPlan({ wk }) {
   const today = todayISO();
   const [slotSheet, setSlotSheet] = useState(null); // { d, slot }
   const [picking, setPicking] = useState(null); // { d, slot }
-  const [genOpen, setGenOpen] = useState(false);
+  const [setupOpen, setSetupOpen] = useState(false);
   const [copyFrom, setCopyFrom] = useState(null);
   const filled = plan && Object.values(plan.days || {}).some((d) => Object.keys(d).length);
+  // Start of a new week: open "Set up your week" automatically (once per week, unless dismissed).
+  useEffect(() => {
+    const dismissed = (S().settings.setupDismissed || []).includes(wk);
+    if (!filled && wk >= weekStart() && !dismissed) setSetupOpen(true);
+  }, [wk]);
+  const closeSetup = (saved) => {
+    setSetupOpen(false);
+    if (!saved && !filled) update((st) => { st.settings.setupDismissed = [...new Set([...(st.settings.setupDismissed || []), wk])].slice(-26); });
+  };
+  const picks = plan?.picks;
 
   const weekAvg = (() => {
     if (!filled) return null;
@@ -46,15 +57,27 @@ function WeekPlan({ wk }) {
   })();
 
   return html`<div>
-    <div class="plan-actions">
-      <button class="btn primary grow" onClick=${() => setGenOpen(true)}><${Icon} name="shuffle" size=${18} /> ${filled ? 'Re-plan week' : 'Auto-plan my week'}</button>
-      ${filled ? html`<button class="btn ghost" onClick=${() => { if (confirmAction('Clear every meal planned for this week?')) actions.setPlanDays(wk, {}); }}>Clear</button>` : null}
-    </div>
-    ${weekAvg ? html`<div class="plan-summary">
-      <span>Daily average</span>
-      <span><b>${fmtNum(weekAvg.kcal)}</b> / ${fmtNum(t.kcal)} kcal</span>
-      <span><b>${fmtNum(weekAvg.p)}</b> / ${t.protein}+ g protein</span>
-    </div>` : html`<p class="muted small">Tap <b>Auto-plan</b> to build a week from a few meal-prep-friendly recipes, or fill each slot yourself. Snacks are included to keep your energy steady.</p>`}
+    ${!filled ? html`<div class="card setup-hero">
+      <div class="setup-hero-emoji">🥡</div>
+      <h2>Set up your week</h2>
+      <p class="muted">Pick 2–3 meals to cook at the start of the week. They're spread across your lunches and dinners, portioned to your goals, and turned into a prep list and grocery list.</p>
+      <button class="btn primary block" onClick=${() => setSetupOpen(true)}>Pick my meals</button>
+      <div class="muted small center">or fill in the days yourself below</div>
+    </div>` : html`
+      ${picks?.mains?.length ? html`<div class="card prepping">
+        <div class="prepping-head"><span class="eyebrow">Prepping this week</span>
+          <button class="link-btn" onClick=${() => setSetupOpen(true)}><${Icon} name="edit" size=${15} /> Change</button></div>
+        <div class="prepping-list">${picks.mains.map((id) => RECIPE_BY_ID[id] && html`<a class="prep-chip" href=${`#/recipes/${id}`}>${RECIPE_BY_ID[id].emoji} ${RECIPE_BY_ID[id].name}</a>`)}</div>
+      </div>` : null}
+      <div class="plan-actions">
+        <button class="btn secondary grow" onClick=${() => setSetupOpen(true)}><${Icon} name="shuffle" size=${18} /> ${picks?.mains?.length ? 'Change meals' : 'Set up week'}</button>
+        <button class="btn ghost" onClick=${() => { if (confirmAction('Clear every meal planned for this week?')) actions.setPlanDays(wk, {}); }}>Clear</button>
+      </div>
+      <div class="plan-summary">
+        <span>Daily average</span>
+        <span><b>${fmtNum(weekAvg.kcal)}</b> / ${fmtNum(t.kcal)} kcal</span>
+        <span><b>${fmtNum(weekAvg.p)}</b> / ${t.protein}+ g protein</span>
+      </div>`}
 
     ${days.map((d, i) => {
       const day = plan?.days?.[i] || {};
@@ -88,7 +111,7 @@ function WeekPlan({ wk }) {
     <${Sheet} open=${!!picking} onClose=${() => setPicking(null)} title=${picking ? `${dowShort(days[picking.d])} · ${SLOT_BY_ID[picking.slot].label}` : ''} full>
       ${picking ? html`<${RecipePicker} type=${SLOT_BY_ID[picking.slot].type} onPick=${(r) => { actions.setPlanItem(wk, picking.d, picking.slot, { id: r.id, servings: 1 }); setPicking(null); }} />` : null}
     </${Sheet}>
-    <${GenerateSheet} open=${genOpen} onClose=${() => setGenOpen(false)} wk=${wk} hasPlan=${filled} />
+    <${SetupSheet} open=${setupOpen} onClose=${closeSetup} wk=${wk} hasPlan=${filled} />
     <${CopySheet} wk=${wk} from=${copyFrom} onClose=${() => setCopyFrom(null)} />
   </div>`;
 }
@@ -111,29 +134,102 @@ function SlotSheet({ wk, state, onClose, onSwap }) {
   </${Sheet}>`;
 }
 
-function GenerateSheet({ open, onClose, wk, hasPlan }) {
+const STEPS = [
+  { key: 'mains', type: 'main', title: 'Pick 2–3 meals to prep', sub: 'These become your lunches and dinners all week. Cook them in one session. Sunday, your rest day, is perfect for it.', min: 2, max: 3, rec: 3 },
+  { key: 'breakfasts', type: 'breakfast', title: 'Pick 1–2 breakfasts', sub: 'Rotated through the week. Overnight oats, baked oats, muffins and sausage patties can all be prepped ahead. Skip this to plan breakfast yourself.', min: 0, max: 2, rec: 2 },
+  { key: 'snacks', type: 'snack', title: 'Pick 2–3 snacks', sub: 'Snacks keep your energy steady between meals. Skip this to handle snacks yourself.', min: 0, max: 3, rec: 3 },
+];
+
+/** "Set up your week": pick 2–3 meals to prep (+ optional breakfasts & snacks), review, save. */
+function SetupSheet({ open, onClose, wk, hasPlan }) {
   const s = S();
-  const [low, setLow] = useState(s.settings.planLowFodmap);
-  const [b, setB] = useState(2);
-  const [m, setM] = useState(3);
-  const [sn, setSn] = useState(3);
-  const go = () => {
-    if (hasPlan && !confirmAction('Replace the meals already planned for this week?')) return;
-    const res = generateWeek({ targets: targets(), lowFodmap: low, counts: { breakfast: b, main: m, snack: sn }, avoid: avoidSet(), favorites: new Set(s.favorites) });
-    actions.setPlanDays(wk, res.days);
-    update((st) => { st.settings.planLowFodmap = low; });
-    toast('Week planned. Check the Prep and Groceries tabs.');
-    onClose();
+  const [step, setStep] = useState(0);
+  const [picks, setPicks] = useState({ mains: [], breakfasts: [], snacks: [] });
+  const [low, setLow] = useState(!!s.settings.planLowFodmap);
+  const [q, setQ] = useState('');
+  useEffect(() => {
+    if (!open) return;
+    const p = S().plans[wk]?.picks || {};
+    setPicks({ mains: p.mains || [], breakfasts: p.breakfasts || [], snacks: p.snacks || [] });
+    setStep(0); setQ(''); setLow(!!S().settings.planLowFodmap);
+  }, [open, wk]);
+
+  const excluded = useMemo(() => new Set(RECIPES.filter(isExcluded).map((r) => r.id)), [open]);
+  const cfg = STEPS[step];
+  const allPicked = [...picks.mains, ...picks.breakfasts, ...picks.snacks];
+  const list = cfg ? poolFor(cfg.type, { lowFodmap: low, avoid: excluded })
+    .filter((r) => picks[cfg.key].includes(r.id) || !allPicked.includes(r.id))
+    .filter((r) => !q.trim() || r.name.toLowerCase().includes(q.trim().toLowerCase()) || r.ing.some(([k]) => k.replace(/_/g, ' ').includes(q.trim().toLowerCase())))
+    .sort((a, b) => (cfg.type === 'main' ? b.prep - a.prep : 0) || (s.favorites.includes(b.id) - s.favorites.includes(a.id)) || analyze(b).p - analyze(a).p) : [];
+
+  const toggle = (id) => {
+    const cur = picks[cfg.key];
+    if (cur.includes(id)) return setPicks({ ...picks, [cfg.key]: cur.filter((x) => x !== id) });
+    if (cur.length >= cfg.max) return toast(`You can pick up to ${cfg.max}. Tap one to remove it first.`);
+    setPicks({ ...picks, [cfg.key]: [...cur, id] });
   };
-  return html`<${Sheet} open=${open} onClose=${onClose} title="Auto-plan this week" footer=${html`<button class="btn primary grow" onClick=${go}><${Icon} name="shuffle" size=${18} /> Generate</button>`}>
-    <p class="muted small">Picks a few recipes and rotates them through the week, so you only cook a couple of batches. Servings are scaled to hit about ${fmtNum(targets().kcal)} kcal a day, and an extra snack is added when you need it.</p>
-    <div class="habit-row"><span>Low-FODMAP recipes only</span>
-      <button class=${'toggle ' + (low ? 'on' : '')} role="switch" aria-checked=${low} onClick=${() => setLow(!low)}><span></span></button></div>
-    <div class="habit-row"><span>Breakfast recipes</span><${Stepper} value=${b} min=${1} max=${4} onChange=${setB} /></div>
-    <div class="habit-row"><span>Lunch & dinner recipes</span><${Stepper} value=${m} min=${1} max=${6} onChange=${setM} /></div>
-    <div class="habit-row"><span>Snack recipes</span><${Stepper} value=${sn} min=${1} max=${5} onChange=${setSn} /></div>
-    <p class="muted small">Recipes you've rated as a bad gut reaction more often than a good one are skipped automatically. Saved ★ recipes are favored.</p>
+  const chooseForMe = () => {
+    const avoid = new Set([...avoidSet(), ...allPicked.filter((id) => !picks[cfg.key].includes(id))]);
+    setPicks({ ...picks, [cfg.key]: suggestRecipes(cfg.type, cfg.rec, { lowFodmap: low, avoid, favorites: new Set(s.favorites), keep: picks[cfg.key] }) });
+  };
+  const preview = useMemo(() => (step === 3 ? buildWeek({ ...picks, targets: targets(), avoid: avoidSet() }) : null), [step, picks]);
+  const save = () => {
+    if (hasPlan && !confirmAction('Replace the meals already planned for this week?')) return;
+    actions.setPlanWeek(wk, preview.days, preview.picks);
+    update((st) => { st.settings.planLowFodmap = low; });
+    toast('Week set! Your prep list and groceries are ready.');
+    onClose(true);
+  };
+
+  const count = cfg ? picks[cfg.key].length : 0;
+  const footer = step < 3 ? html`
+    ${step > 0 ? html`<button class="btn ghost" onClick=${() => { setStep(step - 1); setQ(''); }}>Back</button>` : null}
+    <button class="btn secondary" onClick=${chooseForMe}><${Icon} name="shuffle" size=${16} /> Choose for me</button>
+    <button class="btn primary grow" disabled=${count < cfg.min} onClick=${() => { setStep(step + 1); setQ(''); }}>
+      ${count === 0 && cfg.min === 0 ? 'Skip' : count < cfg.min ? `Pick ${cfg.min - count} more` : 'Next'}</button>`
+    : html`<button class="btn ghost" onClick=${() => setStep(2)}>Back</button><button class="btn primary grow" onClick=${save}>Save my week</button>`;
+
+  return html`<${Sheet} open=${open} onClose=${() => onClose(false)} title=${`Set up ${wk === weekStart() ? 'this' : 'the'} week`} full footer=${footer}>
+    <div class="setup-steps">${['Meals', 'Breakfast', 'Snacks', 'Review'].map((l, i) => html`<span class=${'setup-step ' + (i === step ? 'on' : i < step ? 'done' : '')}>${l}</span>`)}</div>
+    ${step < 3 ? html`
+      <h2 class="setup-title">${cfg.title}</h2>
+      <p class="muted small">${cfg.sub}</p>
+      ${count ? html`<div class="picked-chips">${picks[cfg.key].map((id, i) => html`<button class="prep-chip on" onClick=${() => toggle(id)}><b>${i + 1}</b> ${RECIPE_BY_ID[id].name} ✕</button>`)}</div>` : null}
+      <div class="search"><${Icon} name="search" size=${18} /><input placeholder="Search recipes or ingredients" value=${q} onInput=${(e) => setQ(e.target.value)} /></div>
+      <div class="chips-row"><${Chip} on=${low} onClick=${() => setLow(!low)}>Low-FODMAP only</${Chip}></div>
+      <div class="list">
+        ${list.map((r) => {
+          const i = picks[cfg.key].indexOf(r.id);
+          return html`<${RecipeRow} key=${r.id} r=${r} onClick=${() => toggle(r.id)}
+            right=${html`<span class=${'pick-dot ' + (i >= 0 ? 'on' : '')}>${i >= 0 ? i + 1 : html`<${Icon} name="plus" size=${16} />`}</span>`} />`;
+        })}
+        ${!list.length ? html`<div class="muted pad">No recipes match. Try turning off Low-FODMAP only.</div>` : null}
+      </div>` : html`<${SetupReview} res=${preview} />`}
   </${Sheet}>`;
+}
+
+function SetupReview({ res }) {
+  const t = targets();
+  const avg = Object.values(res.days).reduce((a, d) => { const x = dayTotals(d); return { kcal: a.kcal + x.kcal / 7, p: a.p + x.p / 7 }; }, { kcal: 0, p: 0 });
+  const items = prepList(res);
+  const partial = res.share < 0.99;
+  return html`<div>
+    <h2 class="setup-title">Your week</h2>
+    <div class="target-grid two">
+      <div><div class="big-num">${fmtNum(avg.kcal)}</div><div class="muted small">kcal / day${partial ? ' planned' : ''}</div></div>
+      <div><div class="big-num">${fmtNum(avg.p)}<small>g</small></div><div class="muted small">protein / day</div></div>
+    </div>
+    ${partial ? html`<p class="muted small">${!res.picks.breakfasts.length && !res.picks.snacks.length ? 'This covers lunch and dinner.' : !res.picks.breakfasts.length ? 'Breakfast is up to you.' : 'Snacks are up to you.'} Aim for about ${fmtNum(t.kcal)} kcal and ${t.protein} g protein across the whole day.</p>`
+      : html`<p class="muted small">Target: ${fmtNum(t.kcal)} kcal and ${t.protein}+ g protein.${res.eveningSnack ? ` An evening snack (${res.eveningSnack}) was added to help you hit your calories.` : ''}</p>`}
+    <div class="card list-card">
+      ${items.map((x) => html`<div class="cook-row">
+        <span class="recipe-emoji">${x.r.emoji}</span>
+        <span class="cook-main"><b>${x.r.name}</b>
+          <span class="muted small">${x.count} meal${x.count === 1 ? '' : 's'}${x.portion ? ` × ${fmtQty(x.portion)} serving${x.portion === 1 ? '' : 's'}` : ''}${x.r.prep ? ` · cook ${fmtQty(Math.round(x.batches * 4) / 4)}× the recipe` : ' · make fresh'}</span></span>
+      </div>`)}
+    </div>
+    <p class="muted small">Cooked food keeps 3–4 days in the fridge. Freeze the Thursday–Saturday containers, or do a quick second cook midweek.</p>
+  </div>`;
 }
 
 function CopySheet({ wk, from, onClose }) {
@@ -157,16 +253,18 @@ function PrepTab({ wk }) {
   const prepped = plan?.prepped || {};
   const batch = list.filter((x) => x.r.prep);
   const fresh = list.filter((x) => !x.r.prep);
-  const totalMins = batch.reduce((a, x) => a + x.r.mins * Math.max(1, Math.ceil(x.batches)) * 0.75, 0);
+  // Recipes overlap in the oven/on the stove; bigger batches add a little hands-on time, not a full repeat.
+  const totalMins = batch.reduce((a, x) => a + x.r.mins * 0.8 + Math.max(0, Math.ceil(x.batches) - 1) * 4, 0);
+  const fmtMins = (m) => { m = Math.max(15, Math.round(m / 15) * 15); return m < 60 ? `${m} min` : `${Math.floor(m / 60)} hr${m % 60 ? ` ${m % 60} min` : ''}`; };
   const row = (x) => html`<div class=${'prep-row ' + (prepped[x.r.id] ? 'done' : '')}>
     <button class=${'check-btn ' + (prepped[x.r.id] ? 'on' : '')} onClick=${() => actions.togglePrepped(wk, x.r.id)} aria-label="Mark prepped"><${Icon} name="check" size=${18} /></button>
     <a class="prep-main" href=${`#/recipes/${x.r.id}`}>
       <span class="prep-name">${x.r.emoji} ${x.r.name}</span>
-      <span class="muted small">${fmtQty(x.servings)} servings · make ${fmtQty(Math.round(x.batches * 4) / 4)}× the recipe · ${x.r.mins} min</span>
+      <span class="muted small">${x.portion ? `${x.count} containers × ${fmtQty(x.portion)} serving${x.portion === 1 ? '' : 's'}` : `${fmtQty(x.servings)} servings`} · make ${fmtQty(Math.round(x.batches * 4) / 4)}× the recipe · ${x.r.mins} min</span>
     </a>
   </div>`;
   return html`<div>
-    ${batch.length ? html`<${Card} title="Batch cook" action=${html`<span class="muted small">~${Math.round(totalMins / 15) * 15} min</span>`}>
+    ${batch.length ? html`<${Card} title="Batch cook" action=${html`<span class="muted small">~${fmtMins(totalMins)}</span>`}>
       ${batch.map(row)}
       <p class="muted small">Sunday is your rest day, which makes it a natural prep day. Start the rice and roasting trays first, then cook proteins while they go. Cool food before lidding. It keeps 4 days in the fridge, so freeze the Thursday–Sunday portions or do a second mini-prep midweek.</p>
     </${Card}>` : null}

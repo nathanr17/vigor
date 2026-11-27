@@ -5,10 +5,10 @@ A personal fitness, nutrition and gut-health app for iPhone. It's an installable
 ## Features
 
 - **Home dashboard:** today's calories and macros, water and pelvic-floor habits, today's menu with one-tap logging, weekly goals, and charts for lifting sessions, runs per week, calories, protein, energy/gut comfort and body weight.
-- **Weekly planning:** auto-plan a week from a few meal-prep-friendly recipes (servings are scaled to your targets), or fill each slot yourself. There are 6 slots a day: breakfast, three snacks, lunch and dinner. You can also copy a day across the week.
+- **Weekly planning:** at the start of each week, "Set up your week" asks you to pick 2–3 meals to prep (plus optional breakfasts and snacks), or tap "Choose for me". They're rotated through lunches and dinners with one portion size per recipe so every container matches, scaled to your targets. You can still edit any slot or copy a day.
 - **Prep list:** what to batch-cook, how many servings, and the batch multiplier.
 - **Grocery list:** every planned ingredient totaled, converted to store units and grouped by aisle, with checkboxes, extras and Share (to Notes or Reminders).
-- **66 recipes:** breakfasts, lunches/dinners, snacks and shakes. Macros are computed from an ingredient database (USDA-based). Each recipe has a FODMAP rating (Low / Moderate / High) based on per-serving portion thresholds, the flagged ingredients, low-FODMAP swaps, and "vitality" highlights (nitrates, zinc, omega-3, flavonoids, vitamin D, magnesium, selenium, citrulline).
+- **103 recipes:** breakfasts, lunches/dinners, snacks and shakes. Macros are computed from an ingredient database (USDA-based). Each recipe has a FODMAP rating (Low / Moderate / High) based on per-serving portion thresholds, the flagged ingredients, low-FODMAP swaps, and "vitality" highlights (nitrates, zinc, omega-3, flavonoids, vitamin D, magnesium, selenium, citrulline).
 - **Logging:** meals (recipe, quick add or recent), workouts (full-gym templates, sets pre-filled from last session, rest timer, progressive-overload hints, PR detection), runs/cardio with pace, daily check-ins (energy, mood, drive, stress, sleep, gut comfort, symptoms, Bristol scale, journal) and body weight.
 - **Training plan:** push / pull / legs / upper on Mon, Wed, Thu and Sat, 1–2 easy runs (Tue, optional Fri) with a beginner run/walk progression, pelvic-floor work, and Sundays always off.
 - **Foods I don't eat:** a setting that hides every recipe containing an ingredient you exclude (library, picker and auto-planner).

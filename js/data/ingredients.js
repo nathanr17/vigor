@@ -57,6 +57,8 @@ I('ground_beef', 'Ground beef, 93% lean', 'meat', [152, 21, 0, 7, 0], {}, { buy:
 I('sirloin', 'Top sirloin steak', 'meat', [150, 22, 0, 6.5, 0], {}, { buy: 'lb', vit: ['zinc'], vmin: 85 });
 I('flank_steak', 'Flank steak', 'meat', [155, 21, 0, 7.5, 0], {}, { buy: 'lb', vit: ['zinc'], vmin: 85 });
 I('beef_chuck', 'Beef chuck roast', 'meat', [190, 20, 0, 12, 0], {}, { buy: 'lb', vit: ['zinc'], vmin: 85 });
+I('ground_chicken', 'Ground chicken', 'meat', [143, 17.4, 0, 8.1, 0], {}, { buy: 'lb' });
+I('pork_chop', 'Boneless pork loin chops', 'meat', [136, 21.5, 0, 5, 0], {}, { buy: 'lb' });
 I('pork_tenderloin', 'Pork tenderloin', 'meat', [120, 21, 0, 3.5, 0], {}, { buy: 'lb' });
 I('salmon', 'Salmon fillets', 'meat', [190, 20, 0, 12, 0], {}, { buy: 'lb', vit: ['omega3', 'vitD'], vmin: 85 });
 I('smoked_salmon', 'Smoked salmon', 'meat', [117, 18.3, 0, 4.3, 0], {}, { buy: 'oz', vit: ['omega3', 'vitD'], vmin: 56 });
@@ -182,6 +184,14 @@ I('butternut', 'Butternut squash, cubed', 'produce', [45, 1, 11.7, 0.1, 2], { cu
 
 I('tofu', 'Extra-firm tofu', 'produce', [144, 15.8, 2.8, 8.7, 2.3], { block: 396, each: 396 }, { buy: 'each', unitName: 'block (14 oz)' });
 
+I('mango', 'Mango, diced (fresh or frozen)', 'produce', [60, 0.8, 15, 0.4, 1.6], { cup: 165 }, {
+  buy: 'cup', fod: { g: 40, lvl: 'high', groups: ['fructose'], note: 'High in excess fructose above about 1/4 cup. Swap: pineapple (low-FODMAP up to 1 cup).' },
+});
+I('apple', 'Apples', 'produce', [52, 0.3, 14, 0.2, 2.4], { each: 182, cup: 125 }, {
+  buy: 'each', fod: { g: 20, lvl: 'high', groups: ['fructose', 'sorbitol'], note: 'High in fructose and sorbitol. Swap: firm banana, kiwi, orange or strawberries.' },
+});
+I('bean_sprouts', 'Bean sprouts', 'produce', [30, 3, 6, 0.2, 1.8], { cup: 104 }, { buy: 'cup' });
+
 // ---------- Grains, bread, pasta ----------
 I('oats', 'Rolled oats', 'grains', [379, 13, 68, 6.5, 10], { cup: 80, tbsp: 5 }, {
   buy: 'cup', fod: { g: 52, lvl: 'mod', groups: ['gos', 'fructans'], note: 'Low-FODMAP up to 1/2 cup dry (52 g).' },
@@ -201,6 +211,9 @@ I('tortilla_corn', 'Corn tortillas (6")', 'grains', [218, 5.7, 44.6, 2.9, 6.3], 
 I('tortilla_flour', 'Flour tortillas (burrito size)', 'grains', [304, 8.1, 50, 7.6, 3.5], { each: 70 }, {
   buy: 'each', pack: [8, 'pack'], fod: { g: 35, lvl: 'high', groups: ['fructans'], note: 'Wheat tortillas are high in fructans. Swap: gluten-free or corn tortillas.' },
 });
+I('tortilla_gf', 'Gluten-free tortillas / wraps', 'grains', [280, 5, 50, 6, 3], { each: 60 }, { buy: 'each', pack: [6, 'pack'], note: 'Check labels for inulin or chicory root.' });
+I('polenta', 'Polenta or corn grits (dry)', 'grains', [370, 8, 79, 1.8, 4], { cup: 157 }, { buy: 'cup' });
+I('popcorn', 'Popcorn kernels (1/4 cup ≈ 7 cups popped)', 'grains', [387, 13, 78, 4.5, 15], { cup: 8 }, { buy: 'oz' });
 I('rice_cakes', 'Rice cakes, plain', 'grains', [387, 8, 81, 2.8, 4], { each: 9 }, { buy: 'each', pack: [14, 'pack'] });
 
 // ---------- Pantry & canned ----------
@@ -208,6 +221,12 @@ I('canned_tomatoes', 'Diced tomatoes, canned (no onion/garlic)', 'pantry', [24, 
   buy: 'can', fod: { g: 110, lvl: 'mod', groups: ['fructose'], note: 'Low-FODMAP at about 1/2 cup per serving.' },
 });
 I('tomato_paste', 'Tomato paste', 'pantry', [82, 4.3, 19, 0.5, 4.1], { tbsp: 16 }, { buy: 'tbsp' });
+I('pumpkin', 'Pumpkin purée, canned (100% pumpkin)', 'pantry', [34, 1.1, 8, 0.3, 2.9], { cup: 245, can: 425 }, {
+  buy: 'cup', pack: [1.75, 'can (15 oz)'], fod: { g: 75, lvl: 'mod', groups: ['gos', 'mannitol'], note: 'Low-FODMAP up to about 1/3 cup (75 g).' },
+});
+I('hot_sauce', "Cayenne hot sauce (e.g. Frank's RedHot)", 'pantry', [12, 0.5, 0.5, 0.4, 0.5], { tbsp: 15 }, {
+  buy: 'tbsp', fod: { g: 15, lvl: 'mod', groups: ['fructans'], note: 'Contains a little garlic powder. Keep it to about 1 tbsp per serving.' },
+});
 I('salmon_canned', 'Wild salmon, canned', 'pantry', [136, 23, 0, 5, 0], { can: 150 }, { buy: 'can', vit: ['omega3', 'vitD'], vmin: 85 });
 I('chickpeas', 'Chickpeas, canned (rinsed)', 'pantry', [139, 7.1, 22.5, 2.6, 6.2], { can: 250, cup: 164 }, {
   buy: 'can', fod: { g: 42, lvl: 'mod', groups: ['gos'], note: 'Canned & rinsed chickpeas are low-FODMAP up to 1/4 cup (42 g).' },
@@ -279,6 +298,7 @@ I('garam_masala', 'Garam masala', 'staple', SPICE, { tsp: 2 }, { buy: 'tsp' });
 I('chili_flakes', 'Red pepper flakes', 'staple', SPICE, { tsp: 1.5 }, { buy: 'tsp' });
 I('thyme', 'Dried thyme', 'staple', SPICE, { tsp: 1 }, { buy: 'tsp' });
 I('rosemary', 'Dried rosemary', 'staple', SPICE, { tsp: 1.2 }, { buy: 'tsp' });
+I('cayenne', 'Cayenne pepper', 'staple', SPICE, { tsp: 1.8 }, { buy: 'tsp' });
 I('asafoetida', 'Asafoetida (gluten-free)', 'staple', SPICE, { tsp: 2 }, { buy: 'tsp' });
 I('chili_powder', 'Chili powder', 'staple', SPICE, { tsp: 2.7, tbsp: 8 }, {
   buy: 'tsp', fod: { g: 0, lvl: 'mod', groups: ['fructans'], note: 'Most blends contain garlic and onion powder. Swap: cumin + smoked paprika + oregano.' },

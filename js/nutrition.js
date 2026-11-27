@@ -126,49 +126,116 @@ function weightedPick(pool, n, weight) {
   return items.slice(0, n).map((x) => x.r);
 }
 
-/**
- * Generate a week. Picks a small set of recipes per meal type (so meal prep stays simple),
- * rotates them across the days, then scales servings toward the calorie/protein targets.
- */
-export function generateWeek({ targets, lowFodmap = true, counts = { breakfast: 2, main: 3, snack: 3 }, avoid = new Set(), favorites = new Set() }) {
-  const ok = (r) => !avoid.has(r.id) && (!lowFodmap || analyze(r).lowFodmap);
-  const w = (r, type) => {
-    const a = analyze(r);
-    let x = 1;
-    if (favorites.has(r.id)) x *= 3;
-    if (type === 'main' && r.prep) x *= 2;
-    if (type === 'breakfast' && (r.prep || a.quick)) x *= 1.6;
-    if (a.highProtein) x *= 1.4;
-    if (a.vitality) x *= 1.2;
-    return x;
-  };
-  const pool = (type) => RECIPES.filter((r) => r.meal.includes(type) && ok(r) && !(type === 'main' && r.serves === 1 && r.meal.includes('breakfast')));
-  const b = weightedPick(pool('breakfast').filter((r) => !r.meal.includes('snack') || r.tags.includes('smoothie')), counts.breakfast, (r) => w(r, 'breakfast'));
-  const m = weightedPick(pool('main').filter((r) => !b.includes(r)), counts.main, (r) => w(r, 'main'));
-  // Snacks: one protein-focused, the rest energy-focused (carbs + healthy fats) so protein doesn't balloon.
-  const snackPool = pool('snack').filter((r) => !b.includes(r) && !r.meal.includes('breakfast') && r.id !== 'vanilla-protein-shake');
-  const sw = (r) => w(r, 'snack') / (analyze(r).highProtein ? 1.4 : 1);
-  const s = [
-    ...weightedPick(snackPool.filter((r) => pRatio(r.id) >= 0.3), Math.min(1, counts.snack), sw),
-    ...weightedPick(snackPool.filter((r) => pRatio(r.id) < 0.3), Math.max(0, counts.snack - 1), sw),
-  ];
+const pickWeight = (r, type, favorites) => {
+  const a = analyze(r);
+  let x = 1;
+  if (favorites.has(r.id)) x *= 3;
+  if (type === 'main' && r.prep) x *= 2;
+  if (type === 'breakfast' && (r.prep || a.quick)) x *= 1.6;
+  if (a.highProtein && type !== 'snack') x *= 1.4;
+  if (a.vitality) x *= 1.2;
+  return x;
+};
 
+/** Recipes the week-setup screen offers for a meal type. */
+export function poolFor(type, { lowFodmap = false, avoid = new Set() } = {}) {
+  return RECIPES.filter((r) => {
+    if (!r.meal.includes(type) || avoid.has(r.id)) return false;
+    if (lowFodmap && !analyze(r).lowFodmap) return false;
+    if (type === 'breakfast' && r.meal.includes('snack') && !r.tags.includes('smoothie') && r.serves === 1 && analyze(r).kcal < 350) return false;
+    if (type === 'snack' && r.id === 'vanilla-protein-shake') return false;
+    return true;
+  });
+}
+
+/** "Choose for me": fill up to n picks for a meal type, keeping any already chosen. */
+export function suggestRecipes(type, n, { lowFodmap = true, avoid = new Set(), favorites = new Set(), keep = [] } = {}) {
+  const chosen = keep.filter((id) => RECIPE_BY_ID[id]);
+  const pool = poolFor(type, { lowFodmap, avoid }).filter((r) => !chosen.includes(r.id) && !(type === 'snack' && r.meal.includes('breakfast')));
+  if (type === 'snack') {
+    // one protein-focused snack, the rest energy-focused so protein doesn't balloon
+    const haveProtein = chosen.some((id) => pRatio(id) >= 0.3);
+    const out = [...chosen];
+    if (!haveProtein && out.length < n) out.push(...weightedPick(pool.filter((r) => pRatio(r.id) >= 0.3), 1, (r) => pickWeight(r, type, favorites)).map((r) => r.id));
+    const rest = pool.filter((r) => !out.includes(r.id) && pRatio(r.id) < 0.3);
+    out.push(...weightedPick(rest, Math.max(0, n - out.length), (r) => pickWeight(r, type, favorites)).map((r) => r.id));
+    return out.slice(0, n);
+  }
+  return [...chosen, ...weightedPick(pool, Math.max(0, n - chosen.length), (r) => pickWeight(r, type, favorites)).map((r) => r.id)];
+}
+
+/**
+ * Build a week around the 2–3 meals the user preps. Mains rotate through lunches and dinners,
+ * breakfasts and snacks rotate too. Portion size is set once per recipe (so every container of
+ * the same meal matches), scaled toward the calorie target; an evening snack is added if needed.
+ */
+export function buildWeek({ mains = [], breakfasts = [], snacks = [], targets, avoid = new Set() }) {
   const days = {};
   for (let d = 0; d < 7; d++) {
     const day = {};
-    if (b.length) day.breakfast = { id: b[d % b.length].id, servings: 1 };
-    if (m.length) {
-      day.lunch = { id: m[d % m.length].id, servings: 1 };
-      day.dinner = { id: m[(d + 1) % m.length].id, servings: 1 };
+    if (breakfasts.length) day.breakfast = { id: breakfasts[d % breakfasts.length], servings: 1 };
+    if (mains.length) {
+      day.lunch = { id: mains[d % mains.length], servings: 1 };
+      day.dinner = { id: mains[(d + 1) % mains.length], servings: 1 };
     }
-    if (s.length) {
-      day.snack1 = { id: s[d % s.length].id, servings: 1 };
-      if (s.length > 1) day.snack2 = { id: s[(d + 1) % s.length].id, servings: 1 };
+    if (snacks.length) {
+      day.snack1 = { id: snacks[d % snacks.length], servings: 1 };
+      if (snacks.length > 1) day.snack2 = { id: snacks[(d + 1) % snacks.length], servings: 1 };
     }
-    fitDay(day, targets, avoid);
     days[d] = day;
   }
-  return { days, picks: [...b, ...m, ...s].map((r) => r.id) };
+  const portions = {};
+  [...mains, ...breakfasts, ...snacks].forEach((id) => (portions[id] = 1));
+  // Only size what's actually planned: if breakfast or snacks are left to the user, aim lower.
+  const share = 0.55 + (breakfasts.length ? 0.2 : 0) + (snacks.length ? 0.25 : 0);
+  const goal = { kcal: targets.kcal * share, protein: targets.protein * share };
+  const max = (id) => (mains.includes(id) ? 2 : 1.5);
+  const apply = () => { for (const day of Object.values(days)) for (const s of SLOTS) if (day[s.id]) day[s.id].servings = portions[day[s.id].id] ?? 1; };
+  const avg = () => {
+    const t = { kcal: 0, p: 0 };
+    for (const day of Object.values(days)) { const x = dayTotals(day); t.kcal += x.kcal / 7; t.p += x.p / 7; }
+    return t;
+  };
+  let eveningSnack = null;
+  for (let i = 0; i < 60; i++) {
+    apply();
+    const t = avg();
+    if (t.kcal >= goal.kcal * 0.95) break;
+    const needP = t.p < goal.protein;
+    let best = null, bestScore = -Infinity;
+    for (const id of Object.keys(portions)) {
+      if (portions[id] >= max(id)) continue;
+      const score = (needP ? pRatio(id) : -pRatio(id)) - (portions[id] - 1) * 0.6;
+      if (score > bestScore) { bestScore = score; best = id; }
+    }
+    if (!eveningSnack && snacks.length) {
+      const own = snacks.length >= 3;
+      const id = own ? null : needP ? 'vanilla-protein-shake' : ENERGY_SNACKS.find((x) => !avoid.has(x) && !snacks.includes(x)) || 'vanilla-protein-shake';
+      const score = own ? -0.1 : (needP ? pRatio(id) : -pRatio(id)) + 0.05;
+      if (!best || score > bestScore) {
+        for (let d = 0; d < 7; d++) {
+          const sid = own ? snacks[(d + 2) % snacks.length] : id;
+          days[d].snack3 = { id: sid, servings: 1 };
+          portions[sid] ??= 1;
+        }
+        eveningSnack = own ? 'your snacks' : RECIPE_BY_ID[id].name;
+        continue;
+      }
+    }
+    if (!best) break;
+    portions[best] += 0.25;
+  }
+  apply();
+  return { days, portions, eveningSnack, share, picks: { mains, breakfasts, snacks } };
+}
+
+/** Fully automatic week (used as a fallback / for testing). */
+export function generateWeek({ targets, lowFodmap = true, counts = { breakfast: 2, main: 3, snack: 3 }, avoid = new Set(), favorites = new Set() }) {
+  const opts = { lowFodmap, avoid, favorites };
+  const mains = suggestRecipes('main', counts.main, opts);
+  const breakfasts = suggestRecipes('breakfast', counts.breakfast, { ...opts, avoid: new Set([...avoid, ...mains]) });
+  const snacks = suggestRecipes('snack', counts.snack, { ...opts, avoid: new Set([...avoid, ...mains, ...breakfasts]) });
+  return buildWeek({ mains, breakfasts, snacks, targets, avoid });
 }
 
 /**
@@ -271,10 +338,14 @@ export function buildGrocery(week) {
 /** Recipes to cook for the week, with batch multipliers. */
 export function prepList(week) {
   const { recipeCounts } = buildGrocery(week);
+  const meals = {};
+  for (const d of Object.values(week?.days || {})) for (const s of SLOTS) if (d[s.id]) (meals[d[s.id].id] ??= []).push(d[s.id].servings || 1);
   return Object.entries(recipeCounts)
     .map(([id, servings]) => {
       const r = RECIPE_BY_ID[id];
-      return { r, servings, batches: servings / r.serves };
+      const list = meals[id] || [];
+      const uniform = list.length && list.every((x) => x === list[0]);
+      return { r, servings, batches: servings / r.serves, count: list.length, portion: uniform ? list[0] : null };
     })
     .sort((a, b) => (b.r.prep - a.r.prep) || (b.servings - a.servings));
 }

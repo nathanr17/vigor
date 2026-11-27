@@ -27,7 +27,7 @@ export function Onboarding() {
     </div>
     <ul class="onboard-list">
       <li><b>${RECIPES.length} recipes</b> for muscle, energy and vitality, each with a FODMAP rating for IBS</li>
-      <li><b>Weekly planning</b> with a meal-prep list and a full grocery list</li>
+      <li><b>Weekly planning:</b> pick 2–3 meals to prep and get a prep list and full grocery list</li>
       <li><b>Workout & run logging</b> with progress charts (Sundays are rest days)</li>
       <li><b>Gut journal</b> that finds your trigger foods</li>
     </ul>

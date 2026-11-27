@@ -17,7 +17,7 @@ export const defaultState = () => ({
   weights: [], // { date, lb }
   favorites: [],
   active: null, // workout in progress
-  settings: { planLowFodmap: true, restSec: 90, excluded: [] }, // excluded: ingredient keys you don't eat
+  settings: { planLowFodmap: true, restSec: 90, excluded: [], setupDismissed: [] }, // excluded: ingredient keys you don't eat
   backupAt: null,
   createdAt: Date.now(),
 });
@@ -95,6 +95,9 @@ export const actions = {
       const day = (plan.days[dayIdx] ??= {});
       if (item) day[slot] = item; else delete day[slot];
     });
+  },
+  setPlanWeek(wk, days, picks) {
+    update((s) => { s.plans[wk] = { days, picks, prepped: {} }; s.grocery[wk] = { checked: {}, extras: s.grocery[wk]?.extras || [] }; });
   },
   setPlanDays(wk, days) {
     update((s) => { s.plans[wk] = { days, prepped: {} }; s.grocery[wk] = { checked: {}, extras: s.grocery[wk]?.extras || [] }; });

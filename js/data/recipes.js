@@ -380,3 +380,212 @@ R({
   ing: [['edamame', 0.5, 'cup'], ['lime', 0.25, 'each'], ['chili_flakes', 0.25, 'tsp'], ['salt', 0.25, 'tsp'], ['eggs', 1, 'each', 'hard-boiled']],
   steps: ['Microwave edamame 2 minutes. Toss with lime, chili flakes and salt.', 'Enjoy with a hard-boiled egg for extra protein.'],
 });
+
+// =====================================================================
+// MORE BREAKFASTS
+// =====================================================================
+R({
+  id: 'pumpkin-protein-oats', name: 'Pumpkin Pie Protein Oats', emoji: '🎃', meal: ['breakfast'], serves: 1, mins: 5, prep: true,
+  ing: [['oats', 0.5, 'cup'], ['milk_lf', 0.75, 'cup'], ['whey', 1, 'scoop', 'vanilla'], ['pumpkin', 0.25, 'cup'], ['chia', 1, 'tbsp'], ['cinnamon', 0.5, 'tsp'], ['maple', 1, 'tsp'], ['walnuts', 1, 'tbsp']],
+  steps: ['Stir everything except the walnuts together in a jar until smooth.', 'Refrigerate overnight. Top with walnuts and eat cold or microwave 90 seconds.'],
+  note: 'Tastes like pumpkin pie, with 45+ g protein.',
+});
+R({
+  id: 'salmon-egg-rice-bowl', name: 'Savory Salmon & Egg Rice Bowl', emoji: '🍚', meal: ['breakfast'], serves: 1, mins: 15,
+  ing: [['rice', 0.33, 'cup'], ['smoked_salmon', 2, 'oz'], ['eggs', 2, 'each'], ['egg_whites', 0.25, 'cup'], ['cucumber', 0.25, 'each'], ['avocado', 0.125, 'each'], ['sesame_seeds', 1, 'tsp'], ['tamari', 1, 'tsp'], ['scallion_greens', 1, 'each']],
+  steps: ['Cook rice (or use leftover rice).', 'Softly scramble the eggs and egg whites.', 'Top rice with eggs, smoked salmon, cucumber and avocado. Finish with tamari, sesame and scallion greens.'],
+});
+R({
+  id: 'maple-turkey-sausage-eggs', name: 'Maple Turkey Sausage & Eggs', emoji: '🍳', meal: ['breakfast'], serves: 4, mins: 25, prep: true,
+  ing: [['ground_turkey', 1, 'lb'], ['maple', 1, 'tbsp'], ['thyme', 1, 'tsp'], ['paprika', 0.5, 'tsp'], ['salt', 1, 'tsp'], ['pepper', 0.5, 'tsp'], ['olive_oil', 1, 'tsp'], ['eggs', 8, 'each'], ['sourdough', 4, 'slice'], ['strawberries', 2, 'cup']],
+  steps: ['Mix turkey, maple, thyme, paprika, salt and pepper. Form 8 thin patties.', 'Cook in an oiled skillet 3–4 minutes per side. Cool and refrigerate up to 4 days.', 'Each morning reheat 2 patties and cook 2 eggs. Serve with toast and strawberries.'],
+  note: 'Store-bought sausage is usually seasoned with garlic and onion. Homemade keeps it gut-friendly.',
+});
+R({
+  id: 'blueberry-protein-muffins', name: 'Blueberry Oat Protein Muffins', emoji: '🧁', meal: ['breakfast', 'snack'], serves: 4, mins: 30, prep: true,
+  ing: [['oats', 2, 'cup', 'blended into flour'], ['whey', 2, 'scoop', 'vanilla'], ['eggs', 3, 'each'], ['yogurt_lf', 1, 'cup'], ['banana', 1, 'each', 'firm, mashed'], ['maple', 4, 'tbsp'], ['baking_powder', 2, 'tsp'], ['cinnamon', 1, 'tsp'], ['blueberries', 1, 'cup']],
+  steps: ['Heat oven to 350°F and line a 12-cup muffin tin.', 'Whisk eggs, yogurt, banana and maple. Stir in oat flour, protein, baking powder and cinnamon.', 'Fold in blueberries and divide among the cups.', 'Bake 20–22 minutes. 3 muffins = 1 serving. Keeps 4 days, or freeze.'],
+});
+R({
+  id: 'breakfast-quesadilla', name: 'Egg & Cheddar Breakfast Quesadilla', emoji: '🫓', meal: ['breakfast'], serves: 1, mins: 10,
+  ing: [['tortilla_gf', 1, 'each'], ['eggs', 3, 'each'], ['egg_whites', 0.25, 'cup'], ['cheddar', 1, 'oz'], ['spinach', 1, 'cup'], ['tomato', 0.5, 'each', 'diced'], ['butter', 1, 'tsp']],
+  steps: ['Scramble eggs and egg whites with the spinach in butter. Remove.', 'Lay the tortilla in the pan, cover half with cheese, eggs and tomato.', 'Fold, cook 2 minutes per side until golden and melty.'],
+});
+R({
+  id: 'mango-lassi-smoothie', name: 'Mango Lassi Protein Smoothie', emoji: '🥭', meal: ['breakfast', 'snack'], serves: 1, mins: 5, tags: ['smoothie'],
+  ing: [['mango', 1, 'cup', 'frozen'], ['yogurt_lf', 1, 'cup'], ['milk_lf', 0.5, 'cup'], ['whey', 1, 'scoop', 'vanilla'], ['cinnamon', 0.25, 'tsp']],
+  steps: ['Blend everything with a few ice cubes until smooth.'],
+  swaps: 'Low-FODMAP version: use 1 cup frozen pineapple instead of mango.',
+});
+R({
+  id: 'apple-cinnamon-oats', name: 'Apple Cinnamon Protein Oats', emoji: '🍎', meal: ['breakfast'], serves: 1, mins: 10,
+  ing: [['oats', 0.5, 'cup'], ['milk_lf', 1, 'cup'], ['whey', 1, 'scoop', 'vanilla'], ['apple', 0.5, 'each', 'diced'], ['walnuts', 1, 'tbsp'], ['cinnamon', 0.5, 'tsp'], ['maple', 1, 'tsp']],
+  steps: ['Simmer oats and milk 4–5 minutes, stirring.', 'Off the heat, stir in protein powder (add a splash of milk if thick).', 'Top with apple, walnuts, cinnamon and maple.'],
+  swaps: 'Low-FODMAP version: swap the apple for a firm banana or 1/2 cup strawberries.',
+});
+R({
+  id: 'spinach-mushroom-omelette', name: 'Spinach, Mushroom & Feta Omelette', emoji: '🥚', meal: ['breakfast'], serves: 1, mins: 12,
+  ing: [['eggs', 3, 'each'], ['egg_whites', 0.5, 'cup'], ['mushrooms', 1, 'cup', 'sliced'], ['spinach', 1, 'cup'], ['feta', 2, 'tbsp'], ['butter', 1, 'tsp'], ['sourdough', 1, 'slice']],
+  steps: ['Sauté mushrooms in butter 4 minutes, add spinach to wilt. Remove.', 'Whisk eggs and egg whites, pour into the pan and cook until almost set.', 'Add vegetables and feta to one half, fold, and serve with toast.'],
+  swaps: 'Low-FODMAP version: use zucchini or canned champignon mushrooms (low-FODMAP) instead of fresh button mushrooms.',
+});
+R({
+  id: 'strawberry-cheesecake-oats', name: 'Strawberry Cheesecake Overnight Oats', emoji: '🍓', meal: ['breakfast'], serves: 1, mins: 5, prep: true,
+  ing: [['oats', 0.5, 'cup'], ['milk_lf', 0.5, 'cup'], ['yogurt_lf', 0.5, 'cup'], ['whey', 1, 'scoop', 'vanilla'], ['cream_cheese', 1, 'tbsp'], ['strawberries', 0.75, 'cup'], ['maple', 1, 'tsp'], ['chia', 1, 'tsp']],
+  steps: ['Whisk milk, yogurt, protein, cream cheese and maple until smooth.', 'Stir in oats and chia. Layer with strawberries in a jar.', 'Refrigerate overnight.'],
+});
+R({
+  id: 'choc-pb-baked-oats', name: 'Chocolate PB Baked Oats', emoji: '🍫', meal: ['breakfast'], serves: 4, mins: 35, prep: true,
+  ing: [['oats', 2, 'cup'], ['milk_lf', 2, 'cup'], ['whey', 4, 'scoop', 'chocolate'], ['cocoa', 2, 'tbsp'], ['eggs', 2, 'each'], ['peanut_butter', 4, 'tbsp'], ['maple', 2, 'tbsp'], ['baking_powder', 1, 'tsp'], ['dark_chocolate', 1, 'oz', 'chopped']],
+  steps: ['Heat oven to 350°F and grease an 8×8 baking dish.', 'Whisk milk, eggs, protein, cocoa, maple and baking powder. Stir in oats.', 'Pour into the dish, dollop peanut butter on top and swirl. Scatter chocolate.', 'Bake 25–30 minutes until set. Cut into 4 portions. Reheat or eat cold.'],
+  note: 'Tastes like brownies for breakfast, with about 50 g protein a slice.',
+});
+
+// =====================================================================
+// MORE MAINS (mostly meal-prep friendly)
+// =====================================================================
+R({
+  id: 'chicken-shawarma-bowls', name: 'Chicken Shawarma Rice Bowls', emoji: '🥙', meal: ['main'], serves: 4, mins: 40, prep: true,
+  ing: [['chicken_thigh', 2, 'lb'], ['rice', 1.25, 'cup'], ['cumin', 2, 'tsp'], ['paprika', 2, 'tsp'], ['turmeric', 1, 'tsp'], ['cinnamon', 0.25, 'tsp'], ['garlic_oil', 2, 'tbsp'], ['lemon', 2, 'each'], ['cucumber', 1, 'each'], ['cherry_tomatoes', 1, 'cup'], ['yogurt_lf', 0.75, 'cup'], ['tahini', 2, 'tbsp'], ['parsley', 0.25, 'cup'], ['salt', 1.5, 'tsp']],
+  steps: ['Toss chicken with spices, garlic oil, juice of 1 lemon and salt. Marinate 30 minutes or overnight.', 'Cook rice. Roast chicken at 425°F for 22–25 minutes, then slice.', 'Sauce: yogurt, tahini, juice of 1 lemon, pinch of salt, water to thin.', 'Bowl up rice, chicken, cucumber and tomatoes. Add sauce and parsley.'],
+});
+R({
+  id: 'maple-bbq-chicken', name: 'Smoky Maple BBQ Chicken & Sweet Potato', emoji: '🍗', meal: ['main'], serves: 4, mins: 40, prep: true,
+  ing: [['chicken_breast', 2, 'lb'], ['tomato_paste', 3, 'tbsp'], ['maple', 2, 'tbsp'], ['rice_vinegar', 1, 'tbsp'], ['dijon', 1, 'tsp'], ['paprika', 2, 'tsp'], ['sweet_potato', 2, 'each', 'cubed'], ['green_beans', 300, 'g'], ['rice', 1, 'cup'], ['olive_oil', 1, 'tbsp'], ['salt', 1.5, 'tsp']],
+  steps: ['Whisk tomato paste, maple, vinegar, dijon, 1 tsp paprika and 2 tbsp water into a quick BBQ sauce.', 'Roast sweet potato tossed in oil, salt and paprika at 425°F for 25 minutes. Add green beans for the last 10.', 'Cook rice. Bake chicken brushed with half the sauce at 425°F for 20 minutes.', 'Slice and serve with the remaining sauce.'],
+  note: 'Bottled BBQ sauce usually has onion, garlic and high-fructose syrup. This 2-minute version doesn\'t.',
+});
+R({
+  id: 'spanish-chicken-rice', name: 'One-Pan Spanish Chicken & Rice', emoji: '🥘', meal: ['main'], serves: 4, mins: 45, prep: true,
+  ing: [['chicken_thigh', 2, 'lb'], ['rice', 1.25, 'cup'], ['broth_lf', 2.5, 'cup'], ['canned_tomatoes', 1, 'cup'], ['bell_pepper_red', 1, 'each'], ['paprika', 2, 'tsp'], ['turmeric', 0.5, 'tsp'], ['garlic_oil', 2, 'tbsp'], ['olives', 12, 'each'], ['parsley', 0.25, 'cup'], ['lemon', 1, 'each'], ['salt', 1, 'tsp']],
+  steps: ['Season chicken with paprika and salt. Brown in garlic oil in a large pan, 4 minutes per side. Remove.', 'Add pepper for 3 minutes, then rice, turmeric, tomatoes and broth.', 'Nestle chicken on top, cover and simmer 20 minutes until rice is tender.', 'Scatter olives and parsley. Serve with lemon.'],
+});
+R({
+  id: 'cheeseburger-pasta', name: 'Cheeseburger Pasta Skillet', emoji: '🍔', meal: ['main'], serves: 4, mins: 30, prep: true,
+  ing: [['ground_beef', 1.5, 'lb'], ['pasta_gf', 10, 'oz'], ['cheddar', 1, 'cup'], ['canned_tomatoes', 1, 'cup'], ['tomato_paste', 2, 'tbsp'], ['milk_lf', 1, 'cup'], ['broth_lf', 1.5, 'cup'], ['dijon', 1, 'tbsp'], ['paprika', 1, 'tsp'], ['pickles', 2, 'each', 'chopped'], ['scallion_greens', 3, 'each'], ['salt', 1, 'tsp']],
+  steps: ['Brown beef in a deep skillet. Stir in tomato paste, paprika and salt.', 'Add dry pasta, tomatoes, broth and milk. Simmer covered 12–14 minutes, stirring, until pasta is tender.', 'Stir in dijon and cheddar until creamy. Top with pickles and scallion greens.'],
+});
+R({
+  id: 'shrimp-cheddar-grits', name: 'Smoky Shrimp & Cheddar Grits', emoji: '🍤', meal: ['main'], serves: 4, mins: 30,
+  ing: [['shrimp', 1.5, 'lb'], ['polenta', 1, 'cup'], ['milk_lf', 2, 'cup'], ['broth_lf', 2, 'cup'], ['cheddar', 0.75, 'cup'], ['butter', 1, 'tbsp'], ['paprika', 2, 'tsp'], ['cayenne', 0.25, 'tsp'], ['thyme', 0.5, 'tsp'], ['garlic_oil', 1, 'tbsp'], ['spinach', 2, 'cup'], ['scallion_greens', 4, 'each'], ['lemon', 1, 'each'], ['salt', 1, 'tsp']],
+  steps: ['Bring milk and broth to a simmer. Whisk in grits and cook 15–20 minutes, stirring often.', 'Stir in butter, cheddar and salt.', 'Toss shrimp with paprika, cayenne and thyme. Sear in garlic oil 2 minutes per side, add spinach to wilt.', 'Spoon shrimp over grits. Finish with lemon and scallion greens.'],
+});
+R({
+  id: 'teriyaki-chicken-meatballs', name: 'Teriyaki Chicken Meatballs & Rice', emoji: '🍡', meal: ['main'], serves: 4, mins: 35, prep: true,
+  ing: [['ground_chicken', 2, 'lb'], ['eggs', 1, 'each'], ['oats', 0.33, 'cup', 'blitzed'], ['ginger', 1, 'tbsp'], ['scallion_greens', 4, 'each'], ['tamari', 0.25, 'cup'], ['maple', 2, 'tbsp'], ['rice_vinegar', 1, 'tbsp'], ['cornstarch', 2, 'tsp'], ['rice', 1.25, 'cup'], ['broccoli', 3, 'cup'], ['sesame_seeds', 1, 'tbsp']],
+  steps: ['Heat oven to 400°F. Mix chicken, egg, oats, half the ginger and scallion greens. Roll 20 meatballs and bake 18 minutes.', 'Cook rice. Steam broccoli.', 'Simmer tamari, maple, vinegar, remaining ginger and cornstarch slurry until glossy. Toss with meatballs.', 'Divide into containers and top with sesame.'],
+});
+R({
+  id: 'dijon-pork-chops-mash', name: 'Dijon Pork Chops, Mash & Green Beans', emoji: '🥔', meal: ['main'], serves: 4, mins: 35,
+  ing: [['pork_chop', 2, 'lb'], ['potato', 2, 'lb'], ['milk_lf', 0.5, 'cup'], ['butter', 2, 'tbsp'], ['green_beans', 300, 'g'], ['dijon', 2, 'tbsp'], ['maple', 1, 'tbsp'], ['thyme', 1, 'tsp'], ['olive_oil', 1, 'tbsp'], ['salt', 1.5, 'tsp'], ['pepper', 0.5, 'tsp']],
+  steps: ['Boil peeled potato chunks 15 minutes. Mash with warm milk, butter and salt.', 'Season chops with thyme, salt and pepper. Sear in oil 4–5 minutes per side (145°F).', 'Brush with dijon mixed with maple and rest 5 minutes.', 'Steam green beans and serve.'],
+});
+R({
+  id: 'lemon-herb-salmon-sheet-pan', name: 'Lemon-Herb Salmon, Potatoes & Zucchini', emoji: '🐟', meal: ['main'], serves: 4, mins: 35, prep: true,
+  ing: [['salmon', 1.5, 'lb'], ['baby_potatoes', 1.5, 'lb'], ['zucchini', 1, 'each'], ['olive_oil', 2, 'tbsp'], ['garlic_oil', 1, 'tbsp'], ['lemon', 1, 'each'], ['dill', 2, 'tbsp'], ['parsley', 2, 'tbsp'], ['salt', 1, 'tsp'], ['pepper', 0.5, 'tsp']],
+  steps: ['Roast halved potatoes with olive oil and salt at 425°F for 15 minutes.', 'Add zucchini rounds and salmon fillets. Drizzle salmon with garlic oil and lemon juice.', 'Roast 12–14 minutes until salmon flakes. Finish with herbs and lemon zest.'],
+});
+R({
+  id: 'chicken-tikka-masala', name: 'Chicken Tikka Masala', emoji: '🍛', meal: ['main'], serves: 4, mins: 40, prep: true,
+  ing: [['chicken_breast', 2, 'lb', 'cubed'], ['yogurt_lf', 0.5, 'cup'], ['garam_masala', 2, 'tsp'], ['cumin', 1, 'tsp'], ['turmeric', 1, 'tsp'], ['paprika', 1, 'tsp'], ['ginger', 1, 'tbsp'], ['garlic_oil', 2, 'tbsp'], ['canned_tomatoes', 1, 'can'], ['coconut_milk', 0.5, 'can'], ['rice', 1.25, 'cup'], ['cilantro', 0.25, 'cup'], ['salt', 1.5, 'tsp']],
+  steps: ['Marinate chicken in yogurt, half the spices and salt (20 minutes or overnight).', 'Cook rice. Sear chicken in 1 tbsp garlic oil until charred in spots. Remove.', 'Add remaining oil, ginger and spices for 30 seconds, then tomatoes. Simmer 10 minutes.', 'Stir in coconut milk and chicken and simmer 5 minutes. Top with cilantro.'],
+});
+R({
+  id: 'philly-cheesesteak-bowls', name: 'Philly Cheesesteak Rice Bowls', emoji: '🥩', meal: ['main'], serves: 4, mins: 25, prep: true,
+  ing: [['sirloin', 1.5, 'lb', 'very thinly sliced'], ['bell_pepper_green', 2, 'each', 'sliced'], ['mozzarella', 4, 'oz'], ['rice', 1.25, 'cup'], ['olive_oil', 1, 'tbsp'], ['garlic_oil', 1, 'tbsp'], ['tamari', 1, 'tbsp'], ['scallion_greens', 4, 'each'], ['salt', 1, 'tsp'], ['pepper', 1, 'tsp']],
+  steps: ['Cook rice. (Tip: freeze steak 20 minutes for easy thin slicing.)', 'Sauté peppers in olive oil 6 minutes. Remove.', 'Sear steak in garlic oil over high heat 2–3 minutes with tamari, salt and pepper.', 'Return peppers, lay cheese on top and cover 1 minute to melt. Serve over rice with scallion greens.'],
+});
+R({
+  id: 'turkey-baked-ziti', name: 'Turkey Baked Ziti', emoji: '🍝', meal: ['main'], serves: 6, mins: 45, prep: true,
+  ing: [['ground_turkey', 2, 'lb'], ['pasta_gf', 12, 'oz'], ['canned_tomatoes', 1, 'can'], ['tomato_paste', 3, 'tbsp'], ['mozzarella', 1.5, 'cup'], ['parmesan', 0.25, 'cup'], ['spinach', 3, 'cup'], ['italian', 2, 'tsp'], ['garlic_oil', 1, 'tbsp'], ['basil', 0.25, 'cup'], ['salt', 1.5, 'tsp']],
+  steps: ['Heat oven to 400°F. Cook pasta 2 minutes short of the package time.', 'Brown turkey in garlic oil. Add tomato paste, tomatoes, Italian seasoning, salt and 1/2 cup water. Simmer 10 minutes, then stir in spinach and basil.', 'Toss with pasta, spread in a 9×13 dish, top with mozzarella and parmesan.', 'Bake 15–20 minutes until bubbling. Cut into 6 portions.'],
+});
+R({
+  id: 'kung-pao-chicken', name: 'Kung Pao-Style Chicken', emoji: '🌶️', meal: ['main'], serves: 4, mins: 25, prep: true,
+  ing: [['chicken_breast', 2, 'lb', 'cubed'], ['peanuts', 0.33, 'cup'], ['bell_pepper_red', 1, 'each'], ['zucchini', 1, 'each'], ['tamari', 3, 'tbsp'], ['rice_vinegar', 1, 'tbsp'], ['maple', 1, 'tbsp'], ['cornstarch', 1, 'tbsp'], ['chili_flakes', 1, 'tsp'], ['ginger', 1, 'tbsp'], ['garlic_oil', 1, 'tbsp'], ['sesame_oil', 1, 'tsp'], ['scallion_greens', 4, 'each'], ['rice', 1.25, 'cup']],
+  steps: ['Cook rice. Toss chicken with half the cornstarch.', 'Whisk tamari, vinegar, maple, remaining cornstarch and 3 tbsp water.', 'Stir-fry chicken in garlic oil until golden. Add chili flakes, ginger, pepper and zucchini for 3 minutes.', 'Add sauce and peanuts and toss until glossy. Finish with sesame oil and scallion greens.'],
+});
+R({
+  id: 'chicken-pad-thai', name: 'Chicken Pad Thai (no fish sauce)', emoji: '🍜', meal: ['main'], serves: 4, mins: 30,
+  ing: [['chicken_breast', 1.5, 'lb', 'sliced'], ['rice_noodles', 8, 'oz'], ['eggs', 3, 'each'], ['bean_sprouts', 2, 'cup'], ['scallion_greens', 5, 'each'], ['peanuts', 0.25, 'cup', 'chopped'], ['lime', 2, 'each'], ['tamari', 3, 'tbsp'], ['maple', 2, 'tbsp'], ['rice_vinegar', 1, 'tbsp'], ['garlic_oil', 2, 'tbsp'], ['chili_flakes', 0.5, 'tsp'], ['cilantro', 0.25, 'cup']],
+  steps: ['Soak noodles in hot water until just tender. Drain.', 'Whisk tamari, maple, vinegar, juice of 1 lime and chili flakes.', 'Stir-fry chicken in garlic oil 5 minutes. Push aside and scramble the eggs.', 'Add noodles and sauce and toss 2 minutes. Fold in sprouts and scallion greens.', 'Top with peanuts, cilantro and lime wedges.'],
+  note: 'Traditional pad thai uses fish sauce, which is made from anchovies. This version leaves it out.',
+});
+R({
+  id: 'greek-turkey-meatballs', name: 'Greek Turkey Meatballs & Tzatziki Rice', emoji: '🧆', meal: ['main'], serves: 4, mins: 35, prep: true,
+  ing: [['ground_turkey', 2, 'lb'], ['eggs', 1, 'each'], ['oats', 0.33, 'cup', 'blitzed'], ['feta', 0.5, 'cup'], ['oregano', 2, 'tsp'], ['spinach', 1, 'cup', 'finely chopped'], ['garlic_oil', 1, 'tbsp'], ['rice', 1.25, 'cup'], ['cucumber', 1, 'each'], ['yogurt_lf', 1, 'cup'], ['dill', 2, 'tbsp'], ['lemon', 1, 'each'], ['salt', 1.5, 'tsp']],
+  steps: ['Heat oven to 400°F. Mix turkey, egg, oats, feta, oregano, spinach, garlic oil and salt. Roll 20 meatballs and bake 18 minutes.', 'Cook rice.', 'Tzatziki: yogurt, half the cucumber (grated and squeezed), dill, lemon juice and salt.', 'Serve meatballs over rice with diced cucumber and tzatziki.'],
+});
+R({
+  id: 'lemon-chicken-orzo', name: 'Lemon Chicken Orzo with Spinach', emoji: '🍋', meal: ['main'], serves: 4, mins: 30, prep: true,
+  ing: [['chicken_breast', 1.5, 'lb', 'cubed'], ['pasta', 10, 'oz', 'orzo'], ['broth_lf', 3, 'cup'], ['lemon', 2, 'each'], ['spinach', 4, 'cup'], ['parmesan', 0.33, 'cup'], ['garlic_oil', 1, 'tbsp'], ['olive_oil', 1, 'tbsp'], ['dill', 2, 'tbsp'], ['salt', 1, 'tsp']],
+  steps: ['Brown chicken in olive oil. Remove.', 'Toast orzo in garlic oil 2 minutes. Add broth and simmer 10 minutes, stirring, until creamy.', 'Stir in chicken, spinach, lemon zest and juice, parmesan and dill.'],
+  swaps: 'Low-FODMAP version: use gluten-free orzo or 1 1/4 cups rice instead of wheat orzo.',
+});
+R({
+  id: 'cheesy-beef-potato-skillet', name: 'Cheesy Beef & Potato Skillet', emoji: '🍳', meal: ['main'], serves: 4, mins: 35, prep: true,
+  ing: [['ground_beef', 1.5, 'lb'], ['potato', 1.5, 'lb', 'diced small'], ['bell_pepper_green', 1, 'each'], ['cheddar', 1, 'cup'], ['paprika', 2, 'tsp'], ['cumin', 1, 'tsp'], ['garlic_oil', 1, 'tbsp'], ['olive_oil', 1, 'tbsp'], ['scallion_greens', 4, 'each'], ['salt', 1.5, 'tsp']],
+  steps: ['Microwave potatoes 5 minutes to par-cook, then crisp in olive oil in a large skillet, 10 minutes.', 'Push aside and brown the beef in garlic oil with paprika, cumin and salt. Add pepper for 3 minutes.', 'Stir together, top with cheddar and cover to melt. Finish with scallion greens.'],
+});
+R({
+  id: 'lemon-pepper-chicken-potatoes', name: 'Lemon Pepper Chicken & Crispy Potatoes', emoji: '🍗', meal: ['main'], serves: 4, mins: 40, prep: true, tags: ['gut'],
+  ing: [['chicken_thigh', 2, 'lb'], ['baby_potatoes', 2, 'lb'], ['broccoli', 3, 'cup'], ['olive_oil', 2, 'tbsp'], ['garlic_oil', 1, 'tbsp'], ['lemon', 2, 'each'], ['pepper', 2, 'tsp'], ['parsley', 2, 'tbsp'], ['salt', 1.5, 'tsp']],
+  steps: ['Toss halved potatoes in olive oil and salt. Roast at 425°F for 15 minutes.', 'Rub chicken with garlic oil, lemon zest, lots of pepper and salt. Add to the pan and roast 20 minutes.', 'Add broccoli for the last 10 minutes. Finish with lemon juice and parsley.'],
+});
+R({
+  id: 'buffalo-chicken-bowls', name: 'Buffalo Chicken Rice Bowls', emoji: '🔥', meal: ['main'], serves: 4, mins: 30, prep: true,
+  ing: [['chicken_breast', 2, 'lb'], ['hot_sauce', 5, 'tbsp'], ['butter', 1, 'tbsp'], ['rice', 1.25, 'cup'], ['carrot', 2, 'each', 'shredded'], ['celery', 1, 'each', 'diced'], ['romaine', 3, 'cup'], ['yogurt_lf', 0.5, 'cup'], ['dill', 1, 'tbsp'], ['chives', 1, 'tbsp'], ['lemon', 0.5, 'each'], ['salt', 1, 'tsp']],
+  steps: ['Cook rice. Season and bake or pan-cook chicken, then shred or dice.', 'Melt butter into hot sauce and toss with the chicken.', 'Ranch: yogurt, dill, chives, lemon juice and salt.', 'Bowl up rice, romaine, carrot, celery and buffalo chicken, with ranch on top.'],
+});
+
+// =====================================================================
+// MORE SNACKS
+// =====================================================================
+R({
+  id: 'parmesan-popcorn', name: 'Parmesan Popcorn', emoji: '🍿', meal: ['snack'], serves: 1, mins: 5,
+  ing: [['popcorn', 7, 'cup'], ['olive_oil', 1, 'tsp'], ['parmesan', 2, 'tbsp'], ['salt', 0.25, 'tsp']],
+  steps: ['Air-pop or stovetop-pop 1/4 cup kernels.', 'Toss with olive oil, parmesan and salt.'],
+  note: 'Popcorn is low-FODMAP up to about 7 cups and high in fiber.',
+});
+R({
+  id: 'yogurt-ranch-veggie-box', name: 'Yogurt Ranch & Veggie Box', emoji: '🥕', meal: ['snack'], serves: 1, mins: 5, prep: true,
+  ing: [['yogurt_lf', 0.5, 'cup'], ['dill', 1, 'tsp'], ['chives', 1, 'tsp'], ['lemon', 0.125, 'each'], ['carrot', 1, 'each'], ['cucumber', 0.5, 'each'], ['bell_pepper_green', 0.5, 'each'], ['cheddar', 1, 'oz']],
+  steps: ['Stir yogurt with herbs, lemon juice and a pinch of salt.', 'Pack with veggie sticks and cheddar cubes.'],
+});
+R({
+  id: 'berry-yogurt-bark', name: 'Berry Yogurt Bark', emoji: '🍧', meal: ['snack'], serves: 4, mins: 10, prep: true,
+  ing: [['yogurt_lf', 2, 'cup'], ['whey', 1, 'scoop', 'vanilla'], ['maple', 2, 'tbsp'], ['mixed_berries', 1, 'cup'], ['dark_chocolate', 1, 'oz', 'chopped'], ['pumpkin_seeds', 2, 'tbsp']],
+  steps: ['Whisk yogurt, protein and maple. Spread 1/2 inch thick on a parchment-lined tray.', 'Scatter berries, chocolate and pepitas.', 'Freeze 3+ hours, break into 4 portions and keep frozen.'],
+});
+R({
+  id: 'apple-pb-slices', name: 'Apple & Peanut Butter Slices', emoji: '🍏', meal: ['snack'], serves: 1, mins: 3,
+  ing: [['apple', 1, 'each'], ['peanut_butter', 2, 'tbsp'], ['cinnamon', 0.25, 'tsp']],
+  steps: ['Slice the apple and dip in peanut butter. Dust with cinnamon.'],
+  swaps: 'Low-FODMAP version: use a firm banana or 2 kiwis instead of the apple.',
+});
+R({
+  id: 'protein-hot-cocoa', name: 'Protein Hot Cocoa', emoji: '🥛', meal: ['snack'], serves: 1, mins: 5,
+  ing: [['milk_lf', 1.5, 'cup'], ['cocoa', 1.5, 'tbsp'], ['whey', 0.5, 'scoop', 'chocolate'], ['maple', 1, 'tsp'], ['cinnamon', 0.25, 'tsp']],
+  steps: ['Heat milk until steaming (don\'t boil).', 'Whisk in cocoa, maple and cinnamon, then the protein powder until frothy.'],
+  note: 'A caffeine-free evening wind-down with 30+ g protein.',
+});
+R({
+  id: 'strawberry-banana-smoothie', name: 'Strawberry Banana Protein Smoothie', emoji: '🍓', meal: ['breakfast', 'snack'], serves: 1, mins: 5, tags: ['smoothie'],
+  ing: [['strawberries', 0.75, 'cup', 'frozen'], ['banana', 0.5, 'each', 'firm'], ['yogurt_lf', 0.5, 'cup'], ['milk_lf', 1, 'cup'], ['whey', 1, 'scoop', 'vanilla']],
+  steps: ['Blend everything with a few ice cubes until smooth.'],
+});
+R({
+  id: 'yogurt-deviled-eggs', name: 'Greek Yogurt Deviled Eggs', emoji: '🥚', meal: ['snack'], serves: 1, mins: 15, prep: true,
+  ing: [['eggs', 3, 'each', 'hard-boiled'], ['yogurt_lf', 2, 'tbsp'], ['dijon', 1, 'tsp'], ['paprika', 0.25, 'tsp'], ['chives', 1, 'tsp']],
+  steps: ['Halve the eggs and pop out the yolks.', 'Mash yolks with yogurt, dijon and a pinch of salt. Spoon back into the whites.', 'Dust with paprika and chives. Keeps 2 days.'],
+});
+R({
+  id: 'cheddar-grapes-walnuts', name: 'Cheddar, Grapes & Walnuts', emoji: '🍇', meal: ['snack'], serves: 1, mins: 2,
+  ing: [['cheddar', 1, 'oz'], ['grapes', 1, 'cup'], ['walnuts', 2, 'tbsp']],
+  steps: ['Plate it up. That\'s it.'],
+});
+R({
+  id: 'pb-banana-nice-cream', name: 'PB Banana Nice Cream', emoji: '🍨', meal: ['snack'], serves: 1, mins: 5,
+  ing: [['banana', 1, 'each', 'firm, sliced and frozen'], ['peanut_butter', 1, 'tbsp'], ['milk_lf', 0.25, 'cup'], ['whey', 0.5, 'scoop', 'vanilla'], ['cocoa', 1, 'tsp']],
+  steps: ['Blend frozen banana with milk until creamy, scraping down the sides.', 'Add peanut butter, protein and cocoa and blend briefly. Eat right away.'],
+});
