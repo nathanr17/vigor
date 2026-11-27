@@ -93,7 +93,7 @@ export const PRODUCT_SECTIONS = [
       { name: 'Monash University FODMAP Diet app', ev: 'strong', for: ['gut'], why: 'The authoritative lab-tested FODMAP database, made by the researchers who developed the diet. Use it to double-check any food.', look: 'One-time purchase on the App Store.' },
       { name: 'Digital kitchen scale', ev: 'strong', for: ['muscle'], why: 'Weighing meat, rice and oats for a couple of weeks calibrates your eye and makes your calorie tracking accurate.', look: 'Any scale with a tare button and 1 g accuracy.' },
       { name: 'Glass meal-prep containers', ev: 'strong', for: ['muscle'], why: 'Makes Sunday prep sustainable. Glass reheats evenly and doesn\'t stain.', look: 'Oven- and microwave-safe, snap-lock lids. Get 10–15 of them.' },
-      { name: 'Heart-rate chest strap', ev: 'moderate', for: ['cardio'], why: 'Keeps easy runs truly easy (Zone 2), which builds your aerobic base and vascular health.', look: 'Bluetooth chest strap compatible with Apple Watch / iPhone (e.g. Polar H10, Garmin HRM).' },
+      { name: 'Heart-rate chest strap', ev: 'moderate', for: ['cardio'], why: 'Optional. Keeps easy runs truly easy (Zone 2) while you build your running base. The Apple Watch heart rate works too.', look: 'Bluetooth chest strap compatible with Apple Watch / iPhone (e.g. Polar H10, Garmin HRM).' },
       { name: 'Properly fitted running shoes', ev: 'moderate', for: ['cardio'], why: 'At 6\'4", the right shoe matters for your knees and shins.', look: 'Get fitted at a run specialty store. Replace every 300–500 miles.' },
       { name: 'Lifting belt & chalk', ev: 'moderate', for: ['muscle'], why: 'Helps bracing on heavy squats and deadlifts. Chalk improves your grip on pulls.', look: '10 mm lever or prong belt.' },
       { name: 'Foam roller', ev: 'limited', for: ['muscle'], why: 'Feels good and helps you warm up. Evidence for recovery is modest.', look: 'Medium-density, 36" long.' },
@@ -125,7 +125,7 @@ export const SNACK_IDEAS = [
   { name: '1–2 Brazil nuts (daily selenium)', p: 1, kcal: 35, low: true },
   { name: 'Dark chocolate 85%, 1 oz (flavonoids)', p: 3, kcal: 170, low: true },
   { name: 'Two kiwis (helps IBS-C)', p: 2, kcal: 90, low: true },
-  { name: 'Tuna pouch + rice crackers', p: 17, kcal: 180, low: true },
+  { name: 'Chicken pouch + rice crackers', p: 16, kcal: 190, low: true },
   { name: 'Popcorn, 7 cups air-popped', p: 7, kcal: 220, low: true },
   { name: 'Beef or turkey jerky (check label for garlic/onion)', p: 12, kcal: 110, low: false },
   { name: 'Protein bar without inulin, chicory root or sugar alcohols', p: 20, kcal: 220, low: false },
@@ -133,7 +133,7 @@ export const SNACK_IDEAS = [
 ];
 
 export const VITALITY_HABITS = [
-  { title: 'Cardio is your #1 lever', body: 'Regular aerobic exercise is one of the best-proven ways to improve erectile function, because erections depend on healthy blood vessels. Aim for 150+ minutes of cardio a week (your Zone 2 runs and intervals count).' },
+  { title: 'Cardio is your #1 lever', body: 'Regular aerobic exercise is one of the best-proven ways to improve erectile function, because erections depend on healthy blood vessels. Your 1–2 easy runs are the core. Brisk walks, bike rides or a 10–15 minute incline walk after lifting all add up toward the ~150 minutes a week that research links to the biggest benefit.' },
   { title: 'Protect your sleep', body: 'Most testosterone is released during sleep. Even one week of 5-hour nights measurably lowers testosterone in young men. Aim for 7–9 hours on a consistent schedule.' },
   { title: 'Train your pelvic floor', body: 'Pelvic floor exercises (Kegels) have clinical evidence for improving erectile strength and ejaculatory control. Use the 10-minute Pelvic Floor & Core workout 3–5× a week. Learn to relax the muscles, not just squeeze.' },
   { title: 'Eat Mediterranean-style', body: 'Diets rich in vegetables, fruit, fish, olive oil and nuts are linked to better erectile function. Leafy greens and beets (nitrates), berries and cocoa (flavonoids) and fatty fish (omega-3) are especially useful.' },
@@ -147,5 +147,5 @@ export const IBS_GUIDE = [
   { title: 'How FODMAPs work', body: 'FODMAPs are fermentable carbs that draw water into the gut and are fermented by bacteria, which causes gas, bloating, pain and changes in stool for people with IBS. Portion size matters: many foods are fine in small amounts.' },
   { title: 'The 3-phase approach', body: '1) Eliminate: 2–6 weeks of mostly low-FODMAP recipes. 2) Reintroduce: test one FODMAP group at a time over 3 days, logging reactions here. 3) Personalize: bring back everything you tolerate. Ideally work with a registered dietitian trained in FODMAPs.' },
   { title: 'Log reactions consistently', body: 'After meals, tap the reaction button on a logged food. Insights get meaningful after 2–3 weeks of logging and highlight FODMAP groups and ingredients that line up with bad days.' },
-  { title: 'Non-FODMAP triggers', body: 'Large fatty meals, coffee, alcohol, spicy food, eating fast and stress can all trigger symptoms. Use the notes field to capture these.' },
+  { title: 'Non-FODMAP triggers', body: 'Large fatty meals, alcohol, fizzy drinks, energy drinks or pre-workouts with caffeine, spicy food, eating fast and stress can all trigger symptoms. Use the notes field to capture these.' },
 ];

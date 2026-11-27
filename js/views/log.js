@@ -124,6 +124,7 @@ function TrainingLog({ date }) {
       <div><div class="eyebrow">In progress</div><div class="resume-title">${s.active.name}</div></div>
       <span class="btn primary sm">Resume</span></a>` : null}
 
+    ${suggestion?.rest ? html`<div class="card rest-card"><span class="rest-emoji">😴</span><div><b>Sunday is your rest day.</b><div class="muted small">Muscle is built during recovery. Sleep in, walk if you feel like it, and prep meals for the week.</div></div></div>` : null}
     <${Card} title="Start a workout" action=${suggestion?.lift ? html`<span class="muted small">Today: ${TEMPLATE_BY_ID[suggestion.lift].name}</span>` : null}>
       <div class="tpl-grid">
         ${TEMPLATES.map((tp) => html`<button class=${'tpl ' + (suggestion?.lift === tp.id ? 'suggested' : '')} onClick=${() => startWorkout(tp.id)} disabled=${!!s.active}>
@@ -202,7 +203,7 @@ function CardioSheet({ open, onClose, date }) {
     </div>
     <div class="field"><div class="field-label">Effort</div><${Segmented} options=${[['Easy', 'Easy'], ['Moderate', 'Moderate'], ['Hard', 'Hard']]} value=${effort} onChange=${setEffort} /></div>
     <label class="field"><div class="field-label">Notes</div><input class="text-input" placeholder="Route, how you felt, shoes…" value=${notes} onInput=${(e) => setNotes(e.target.value)} /></label>
-    <p class="muted small">Easy runs should feel conversational (Zone 2). Most of your weekly mileage should be easy.</p>
+    <p class="muted small">Keep it easy enough to talk in full sentences. New to running? Alternate 1 minute running with 2 minutes walking. That counts as a run.</p>
   </${Sheet}>`;
 }
 

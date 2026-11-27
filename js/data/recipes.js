@@ -202,9 +202,10 @@ R({
   steps: ['Cook rice. Cube tofu and toss with cornstarch.', 'Pan-fry tofu in garlic oil until golden on all sides, about 10 minutes. Remove.', 'Stir-fry bok choy and pepper for 3 minutes.', 'Add tamari, maple and ginger, return tofu and toss. Finish with sesame oil and seeds.'],
 });
 R({
-  id: 'tuna-salad-sandwich', name: 'Lemon-Dill Tuna Sandwich', emoji: '🥪', meal: ['main'], serves: 1, mins: 10,
-  ing: [['tuna', 1, 'can'], ['yogurt_lf', 0.25, 'cup'], ['mayo', 1, 'tbsp'], ['dijon', 1, 'tsp'], ['lemon', 0.25, 'each'], ['dill', 1, 'tbsp'], ['sourdough', 2, 'slice'], ['spinach', 1, 'cup'], ['cucumber', 0.25, 'each']],
-  steps: ['Mix tuna, yogurt, mayo, dijon, lemon juice and dill.', 'Toast sourdough. Layer spinach, cucumber and tuna salad.'],
+  id: 'chicken-salad-sandwich', name: 'Lemon-Dill Chicken Salad Sandwiches', emoji: '🥪', meal: ['main'], serves: 4, mins: 25, prep: true,
+  ing: [['chicken_breast', 1.5, 'lb'], ['yogurt_lf', 0.67, 'cup'], ['mayo', 2, 'tbsp'], ['dijon', 1, 'tbsp'], ['lemon', 1, 'each'], ['dill', 2, 'tbsp'], ['celery', 1, 'each', 'finely diced'], ['grapes', 1, 'cup', 'halved'], ['sourdough', 8, 'slice'], ['spinach', 4, 'cup'], ['salt', 1, 'tsp'], ['pepper', 0.5, 'tsp']],
+  steps: ['Cover chicken with salted water in a pot. Bring to a gentle simmer and cook 12–15 minutes (165°F inside). Cool, then dice or shred.', 'Mix yogurt, mayo, dijon, lemon zest and juice, dill, salt and pepper.', 'Fold in the chicken, celery and grapes. Keeps 4 days in the fridge.', 'To serve, pile onto toasted sourdough (2 slices per sandwich) with a handful of spinach.'],
+  note: 'Creamy, high-protein lunch without mayo overload. Greek yogurt does most of the work.',
 });
 R({
   id: 'yogurt-caesar-wrap', name: 'Greek Yogurt Chicken Caesar Wrap', emoji: '🥗', meal: ['main'], serves: 2, mins: 20,
@@ -331,9 +332,9 @@ R({
   steps: ['Spread turkey slices with a little dijon, roll around cheese strips and cucumber spears.'],
 });
 R({
-  id: 'spicy-tuna-rice-cakes', name: 'Spicy Tuna Rice Cakes', emoji: '🍙', meal: ['snack'], serves: 1, mins: 5,
-  ing: [['tuna', 1, 'can'], ['yogurt_lf', 2, 'tbsp'], ['sriracha', 1, 'tsp'], ['rice_cakes', 3, 'each'], ['cucumber', 0.25, 'each'], ['scallion_greens', 1, 'each']],
-  steps: ['Mix tuna, yogurt and sriracha.', 'Pile onto rice cakes with cucumber slices and scallion greens.'],
+  id: 'spicy-salmon-rice-cakes', name: 'Spicy Salmon Rice Cakes', emoji: '🍙', meal: ['snack'], serves: 1, mins: 5,
+  ing: [['salmon_canned', 0.5, 'can'], ['yogurt_lf', 2, 'tbsp'], ['sriracha', 1, 'tsp'], ['rice_cakes', 3, 'each'], ['cucumber', 0.25, 'each'], ['scallion_greens', 1, 'each']],
+  steps: ['Flake the salmon and mix with yogurt and sriracha.', 'Pile onto rice cakes with cucumber slices and scallion greens.'],
 });
 R({
   id: 'kiwi-gut-bowl', name: 'Kiwi Chia Gut Bowl', emoji: '🥝', meal: ['snack', 'breakfast'], serves: 1, mins: 3, tags: ['gut'],

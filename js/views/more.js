@@ -1,9 +1,9 @@
 import { html, useState } from '../../vendor/preact-htm.js';
 import { S, update, exportJSON, importJSON, resetAll, getSaveError } from '../store.js';
 import { targets, gutInsights, REACTIONS } from '../stats.js';
-import { ACTIVITY, GOALS, computeTargets, RECIPE_BY_ID } from '../nutrition.js';
+import { ACTIVITY, GOALS, computeTargets, RECIPE_BY_ID, RECIPES, ING, excludedIn } from '../nutrition.js';
 import { PRODUCT_SECTIONS, EVIDENCE, SNACK_IDEAS, VITALITY_HABITS, IBS_GUIDE } from '../data/products.js';
-import { WEEK_PLAN, TEMPLATE_BY_ID, CARDIO_BY_ID, TEMPLATES, EXERCISES } from '../data/workouts.js';
+import { WEEK_PLAN, TEMPLATE_BY_ID, CARDIO_BY_ID, TEMPLATES, EXERCISES, BEGINNER_RUNNING } from '../data/workouts.js';
 import { Icon, Header, Card, Chip, Segmented, NumInput, Empty, toast, confirmAction } from '../ui.js';
 import { BarChart } from '../charts.js';
 import { fmtNum, todayISO } from '../util.js';
@@ -105,11 +105,11 @@ function TrainingPlan({ back }) {
   const [open, setOpen] = useState(null);
   return html`<div class="page">
     <${Header} title="Training plan" back=${back} />
-    <p class="lede">A 4-day push / pull / legs / upper split for muscle, plus 3 cardio sessions (about 150 min a week) for heart and vascular health.</p>
+    <p class="lede">A 4-day push / pull / legs / upper split for muscle, plus 1–2 easy runs for heart and vascular health. Sundays are always rest.</p>
     <div class="card list-card">
-      ${WEEK_PLAN.map((d) => html`<div class="plan-day">
+      ${WEEK_PLAN.map((d) => html`<div class=${'plan-day' + (d.rest ? ' rest' : '')}>
         <span class="plan-dow">${d.day}</span>
-        <span class="plan-what"><b>${[d.lift && d.lift !== 'pelvic' ? TEMPLATE_BY_ID[d.lift].name : null, d.cardio ? CARDIO_BY_ID[d.cardio].label : null].filter(Boolean).join(' + ') || 'Rest'}</b>
+        <span class="plan-what"><b>${d.rest ? 'Rest 😴' : [d.lift && d.lift !== 'pelvic' ? TEMPLATE_BY_ID[d.lift].name : null, d.cardio ? CARDIO_BY_ID[d.cardio].label + (d.optional ? ' (optional)' : '') : null].filter(Boolean).join(' + ')}</b>
           ${d.lift === 'pelvic' ? html`<span class="muted small"> + pelvic floor</span>` : null}
           <span class="muted small">${d.note}</span></span>
       </div>`)}
@@ -119,9 +119,10 @@ function TrainingPlan({ back }) {
       <p class="small">Leave 1–3 reps in reserve on most sets. Sleep 7–9 hours and eat at your targets. Muscle is built during recovery.</p>
       <p class="small">At 6'4", long levers make squats and deadlifts harder. Prioritize mobility and bracing, and use straps on heavy pulls if your grip limits you.</p>
     </${Card}>
-    <${Card} title="Cardio">
-      <p class="small"><b>Zone 2</b> (conversational pace, ~60–70% max HR) builds your aerobic base and vascular health, and is easy to recover from. <b>Intervals</b> once a week raise your VO₂ max. Keep about 80% of your running easy.</p>
-      <p class="small">Weekly goal: ${s.goals.cardioMiles} miles. Change it in Profile & targets.</p>
+    <${Card} title="Running, for non-runners">
+      <p class="small">The goal is 1–2 relaxed runs a week, not training for a race. Easy, conversational running builds your aerobic base and blood-vessel health, two big drivers of energy and sexual function, without eating into your lifting recovery.</p>
+      <ul class="run-steps">${BEGINNER_RUNNING.map((x) => html`<li>${x}</li>`)}</ul>
+      <p class="small muted">Weekly goal: ${s.goals.runs || 2} run${(s.goals.runs || 2) === 1 ? '' : 's'}. On weeks you skip a run, a brisk 30-minute walk or bike ride still counts as cardio. Change the goal in Profile & targets.</p>
     </${Card}>
     <h2 class="section-title">Workouts</h2>
     ${TEMPLATES.map((t) => html`<div class="card">
@@ -201,11 +202,33 @@ function Settings({ back }) {
     <${Card} title="Weekly goals">
       <div class="grid-2">
         <${NumInput} label="Lifting sessions" value=${s.goals.workouts} onInput=${(v) => setGoal({ workouts: v || 0 })} suffix="/wk" />
-        <${NumInput} label="Run miles" value=${s.goals.cardioMiles} onInput=${(v) => setGoal({ cardioMiles: v || 0 })} suffix="mi" />
+        <${NumInput} label="Runs per week" value=${s.goals.runs ?? 2} onInput=${(v) => setGoal({ runs: v === '' ? 2 : v })} suffix="/wk" />
       </div>
       <${NumInput} label="Rest timer between sets" value=${s.settings.restSec} onInput=${(v) => update((st) => { st.settings.restSec = v || 90; })} suffix="sec" />
+      <p class="muted small">Sundays are always rest days in your plan.</p>
     </${Card}>
+
+    <${FoodExclusions} />
   </div>`;
+}
+
+function FoodExclusions() {
+  const s = S();
+  const ex = s.settings.excluded || [];
+  const [q, setQ] = useState('');
+  const qq = q.trim().toLowerCase();
+  const matches = qq.length >= 2 ? Object.values(ING).filter((i) => !ex.includes(i.key) && i.name.toLowerCase().includes(qq)).slice(0, 8) : [];
+  const add = (k) => { update((st) => { st.settings.excluded = [...(st.settings.excluded || []), k]; }); setQ(''); };
+  const remove = (k) => update((st) => { st.settings.excluded = (st.settings.excluded || []).filter((x) => x !== k); });
+  const hidden = RECIPES.filter((r) => excludedIn(r, ex).length).length;
+  return html`<${Card} title="Foods I don't eat">
+    <p class="muted small">Recipes containing these ingredients are hidden from the recipe library, the meal picker and auto-planning.</p>
+    ${ex.length ? html`<div class="chips-row wrap">${ex.map((k) => html`<button class="chip on" onClick=${() => remove(k)} aria-label=${`Remove ${ING[k]?.name || k}`}>${ING[k]?.name || k} ✕</button>`)}</div>` : null}
+    <div class="search"><${Icon} name="search" size=${18} /><input placeholder="Add an ingredient, e.g. shrimp" value=${q} onInput=${(e) => setQ(e.target.value)} /></div>
+    ${matches.length ? html`<div class="list compact">${matches.map((i) => html`<button class="mini-row" onClick=${() => add(i.key)}><span>${i.name}</span><${Icon} name="plus" size=${18} cls="muted" /></button>`)}</div>`
+      : qq.length >= 2 ? html`<p class="muted small pad">No matching ingredient. None of the recipes use it.</p>` : null}
+    ${hidden ? html`<p class="muted small">${hidden} recipe${hidden === 1 ? '' : 's'} hidden.</p>` : null}
+  </${Card}>`;
 }
 
 function Backup({ back }) {

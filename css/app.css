@@ -527,6 +527,11 @@ select { background: var(--fill); border: none; border-radius: 10px; padding: 7p
 .food-tag { display: flex; gap: 8px; align-items: center; background: var(--fill); border-radius: 12px; padding: 10px; font-size: 14px; }
 .food-tag > span { font-size: 22px; }
 .plan-day { display: flex; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line); align-items: flex-start; }
+.plan-day.rest { background: var(--fill); }
+.rest-card { display: flex; gap: 12px; align-items: center; background: var(--sky-tint); box-shadow: none; }
+.rest-emoji { font-size: 28px; }
+.run-steps { margin: 8px 0 12px; padding-left: 20px; font-size: 14px; line-height: 1.5; }
+.run-steps li { margin-bottom: 6px; }
 .plan-dow { width: 38px; font-weight: 800; color: var(--teal-ink); flex-shrink: 0; }
 .plan-what { display: flex; flex-direction: column; }
 .tpl-row { display: flex; align-items: center; justify-content: space-between; width: 100%; background: none; border: none; text-align: left; padding: 0; font-size: 16px; }

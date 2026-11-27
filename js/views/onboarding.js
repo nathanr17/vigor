@@ -1,6 +1,6 @@
 import { html, useState } from '../../vendor/preact-htm.js';
 import { update } from '../store.js';
-import { ACTIVITY, GOALS, computeTargets } from '../nutrition.js';
+import { ACTIVITY, GOALS, computeTargets, RECIPES } from '../nutrition.js';
 import { NumInput } from '../ui.js';
 import { fmtNum, todayISO } from '../util.js';
 
@@ -26,9 +26,9 @@ export function Onboarding() {
       <p>Train, eat and feel better. Your workouts, meal prep, gut journal and progress in one place.</p>
     </div>
     <ul class="onboard-list">
-      <li><b>66 recipes</b> for muscle, energy and vitality, each with a FODMAP rating for IBS</li>
+      <li><b>${RECIPES.length} recipes</b> for muscle, energy and vitality, each with a FODMAP rating for IBS</li>
       <li><b>Weekly planning</b> with a meal-prep list and a full grocery list</li>
-      <li><b>Workout & run logging</b> with progress charts</li>
+      <li><b>Workout & run logging</b> with progress charts (Sundays are rest days)</li>
       <li><b>Gut journal</b> that finds your trigger foods</li>
     </ul>
     <button class="btn primary block lg" onClick=${() => setStep(1)}>Get started</button>

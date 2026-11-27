@@ -1,7 +1,7 @@
 import { html, useState, useMemo } from '../../vendor/preact-htm.js';
 import { S, actions } from '../store.js';
-import { recipeReactions, REACTIONS } from '../stats.js';
-import { RECIPES, RECIPE_BY_ID, analyze, scaledIngredients, SLOTS, SLOT_BY_ID, VITALITY, FODMAP_GROUPS, FOD_LABEL } from '../nutrition.js';
+import { recipeReactions, REACTIONS, isExcluded } from '../stats.js';
+import { RECIPES, RECIPE_BY_ID, analyze, scaledIngredients, SLOTS, SLOT_BY_ID, VITALITY, FODMAP_GROUPS, FOD_LABEL, excludedIn } from '../nutrition.js';
 import { todayISO, weekStart, weekDays, dowShort, fmtMonthDay, dayIndex, fmtNum, fmtQty } from '../util.js';
 import { Icon, Header, Chip, Stepper, Sheet, FodBadge, Macro, Empty, toast } from '../ui.js';
 import { RecipeRow, LogFoodSheet, guessSlot } from './common.js';
@@ -19,6 +19,7 @@ export function RecipesView() {
   const list = useMemo(() => {
     const qq = q.trim().toLowerCase();
     return RECIPES.filter((r) => {
+      if (isExcluded(r)) return false;
       const a = analyze(r);
       if (meal === 'saved' ? !s.favorites.includes(r.id) : meal !== 'all' && !r.meal.includes(meal)) return false;
       if (flt.low && !a.lowFodmap) return false;
@@ -32,10 +33,12 @@ export function RecipesView() {
       const a = analyze(x), b = analyze(y);
       return sort === 'protein' ? b.p - a.p : sort === 'kcal' ? b.kcal - a.kcal : sort === 'time' ? x.mins - y.mins : x.name.localeCompare(y.name);
     });
-  }, [q, meal, flt, sort, s.favorites.length]);
+  }, [q, meal, flt, sort, s.favorites.length, (s.settings.excluded || []).join()]);
+  const hidden = RECIPES.filter(isExcluded).length;
+  const visible = RECIPES.filter((r) => !isExcluded(r));
 
   return html`<div class="page">
-    <${Header} title="Recipes" sub=${`${RECIPES.length} recipes · ${RECIPES.filter((r) => analyze(r).lowFodmap).length} low-FODMAP`} />
+    <${Header} title="Recipes" sub=${`${visible.length} recipes · ${visible.filter((r) => analyze(r).lowFodmap).length} low-FODMAP`} />
     <div class="search"><${Icon} name="search" size=${18} /><input placeholder="Search: salmon, oats, steak…" value=${q} onInput=${(e) => setQ(e.target.value)} />
       ${q ? html`<button class="icon-btn sm" onClick=${() => setQ('')} aria-label="Clear"><${Icon} name="x" size=${16} /></button>` : null}</div>
     <div class="chips-row scroll">${MEAL_FILTERS.map(([v, l]) => html`<${Chip} on=${meal === v} onClick=${() => setMeal(v)}>${l}</${Chip}>`)}</div>
@@ -46,7 +49,7 @@ export function RecipesView() {
       <${Chip} cls="outline" on=${flt.vit} onClick=${() => toggle('vit')}>Vitality</${Chip}>
       <${Chip} cls="outline" on=${flt.quick} onClick=${() => toggle('quick')}>≤ 15 min</${Chip}>
     </div>
-    <div class="sort-row"><span class="muted small">${list.length} recipe${list.length === 1 ? '' : 's'}</span>
+    <div class="sort-row"><span class="muted small">${list.length} recipe${list.length === 1 ? '' : 's'}${hidden ? html` · <a class="link small" href="#/more/settings">${hidden} hidden by your food list</a>` : null}</span>
       <label class="sort"><span class="muted small">Sort</span>
         <select value=${sort} onChange=${(e) => setSort(e.target.value)}>${SORTS.map(([v, l]) => html`<option value=${v}>${l}</option>`)}</select></label></div>
     <div class="card list-card">
@@ -104,6 +107,7 @@ export function RecipeDetail({ id }) {
       <div class="muted small center">Per serving</div>
     </div>
 
+    ${excludedIn(r, s.settings.excluded).length ? html`<div class="card warn">Contains ${excludedIn(r, s.settings.excluded).join(', ')}, which is on your "Foods I don't eat" list.</div>` : null}
     ${r.note ? html`<p class="recipe-note">${r.note}</p>` : null}
 
     ${a.vit.length ? html`<div class="card"><div class="card-head"><h2>Why it helps</h2></div>

@@ -64,6 +64,8 @@ export function analyze(r) {
 }
 
 export const recipeFits = (r, type) => r.meal.includes(type);
+/** Ingredients in this recipe that the user has marked as foods they don't eat. */
+export const excludedIn = (r, excluded = []) => (excluded.length ? r.ing.filter(([k]) => excluded.includes(k)).map(([k]) => ING[k]?.name || k) : []);
 
 // ------------------------------------------------------------------
 // Targets

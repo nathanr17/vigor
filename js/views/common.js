@@ -2,7 +2,7 @@
 import { html, useState, useMemo } from '../../vendor/preact-htm.js';
 import { S, actions } from '../store.js';
 import { RECIPES, analyze, SLOTS, SLOT_BY_ID, RECIPE_BY_ID } from '../nutrition.js';
-import { SYMPTOMS, REACTIONS, recipeReactions } from '../stats.js';
+import { SYMPTOMS, REACTIONS, recipeReactions, isExcluded } from '../stats.js';
 import { Icon, Sheet, Chip, Stepper, FodBadge, Segmented, NumInput, toast } from '../ui.js';
 import { fmtNum, fmtQty } from '../util.js';
 import { SNACK_IDEAS } from '../data/products.js';
@@ -49,7 +49,8 @@ export function RecipePicker({ type, onPick }) {
   const [fav, setFav] = useState(false);
   const list = useMemo(() => {
     const qq = q.trim().toLowerCase();
-    return RECIPES.filter((r) => (all || !type || r.meal.includes(type)))
+    return RECIPES.filter((r) => !isExcluded(r))
+      .filter((r) => (all || !type || r.meal.includes(type)))
       .filter((r) => !low || analyze(r).lowFodmap)
       .filter((r) => !fav || s.favorites.includes(r.id))
       .filter((r) => !qq || r.name.toLowerCase().includes(qq) || r.ing.some(([k]) => k.includes(qq)))
@@ -177,6 +178,6 @@ export function ReactionSheet({ meal, onClose }) {
       <div class="field"><div class="field-label">When did it start?</div>
         <${Segmented} options=${[['soon', '< 1 hr'], ['hours', '1–4 hrs'], ['later', 'Later / next day']]} value=${onset} onChange=${setOnset} /></div>` : null}
     <label class="field"><div class="field-label">Notes</div>
-      <textarea class="text-input" rows="3" placeholder="Portion size, stress, ate fast, coffee…" value=${notes} onInput=${(e) => setNotes(e.target.value)}></textarea></label>
+      <textarea class="text-input" rows="3" placeholder="Portion size, stress, ate fast, late meal…" value=${notes} onInput=${(e) => setNotes(e.target.value)}></textarea></label>
   </${Sheet}>`;
 }

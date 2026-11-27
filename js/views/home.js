@@ -1,6 +1,6 @@
 import { html, useState } from '../../vendor/preact-htm.js';
 import { S, actions } from '../store.js';
-import { targets, intakeOn, weekSummary, rangeDates, weeklySeries, mealsOn, streak, isRun } from '../stats.js';
+import { targets, intakeOn, weekSummary, rangeDates, weeklySeries, mealsOn, streak } from '../stats.js';
 import { RECIPE_BY_ID, SLOTS, analyze, itemTotals } from '../nutrition.js';
 import { todayISO, weekStart, dayIndex, dowLetter, fmtMonthDay, dowLong, greeting, fmtNum, weekDays, addDays, fmtQty } from '../util.js';
 import { BarChart, LineChart, Legend, Ring } from '../charts.js';
@@ -49,7 +49,7 @@ export function HomeView() {
   const feelLabels = dates.map((d) => ({ tick: tick(d), title: `${dowLong(d).slice(0, 3)}, ${fmtMonthDay(d)}`, today: d === today }));
   const weights = s.weights.filter((w) => w.date >= addDays(today, -Math.max(range, 30) + 1));
   const liftWeeks = weeklySeries(8, (w) => weekSummary(w).lifts).map((x) => ({ value: x.value, tick: fmtMonthDay(x.wk).split(' ')[1], title: `Week of ${fmtMonthDay(x.wk)}`, today: x.wk === wk }));
-  const mileWeeks = weeklySeries(8, (w) => weekSummary(w).miles).map((x) => ({ value: Math.round(x.value * 10) / 10, tick: fmtMonthDay(x.wk).split(' ')[1], title: `Week of ${fmtMonthDay(x.wk)}`, today: x.wk === wk }));
+  const runWeeks = weeklySeries(8, (w) => weekSummary(w)).map((x) => ({ value: x.value.runs, tick: fmtMonthDay(x.wk).split(' ')[1], title: `Week of ${fmtMonthDay(x.wk)} · ${fmtNum(x.value.miles, 1)} mi`, today: x.wk === wk }));
   const avg = (arr) => { const v = arr.filter((x) => x != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
   const hasIntake = kcalData.some((d) => d.value > 0);
   const hasFeel = energy.some((v) => v != null) || gut.some((v) => v != null);
@@ -122,14 +122,15 @@ export function HomeView() {
     <${Card} title="This week" action=${html`<span class="muted small">Mon–Sun</span>`}>
       <div class="stat-grid">
         <${Stat} label="Lifting sessions" value=${sum.lifts} goal=${s.goals.workouts} />
-        <${Stat} label="Run miles" value=${Math.round(sum.miles * 10) / 10} goal=${s.goals.cardioMiles} />
+        <${Stat} label=${`Runs · ${fmtNum(sum.miles, 1)} mi`} value=${sum.runs} goal=${s.goals.runs || 2} />
         <${Stat} label="Protein goal hit" value=${sum.proteinHits} goal=${7} unit="days" />
         <${Stat} label="Pelvic floor" value=${sum.pelvic} goal=${4} unit="sessions" />
       </div>
       ${suggestion ? html`<div class="suggest">
-        <div><div class="muted small">Suggested today</div><div class="suggest-title">${suggestion.lift ? TEMPLATE_BY_ID[suggestion.lift].name : ''}${suggestion.lift && suggestion.cardio ? ' + ' : ''}${suggestion.cardio ? CARDIO_BY_ID[suggestion.cardio].label : ''}${!suggestion.lift && !suggestion.cardio ? 'Rest' : ''}</div>
+        <div><div class="muted small">${suggestion.rest ? 'Today' : 'Suggested today'}</div><div class="suggest-title">${suggestion.rest ? 'Rest day 😴' : [suggestion.lift && TEMPLATE_BY_ID[suggestion.lift].name, suggestion.cardio && CARDIO_BY_ID[suggestion.cardio].label + (suggestion.optional ? ' (optional)' : '')].filter(Boolean).join(' + ')}</div>
         <div class="muted small">${suggestion.note}</div></div>
         ${s.active ? html`<a class="btn secondary sm" href="#/workout">Resume</a>`
+          : suggestion.rest ? html`<a class="btn secondary sm" href="#/plan/prep">Prep list</a>`
           : suggestion.lift ? html`<button class="btn secondary sm" onClick=${() => startWorkout(suggestion.lift)}>Start</button>`
           : html`<a class="btn secondary sm" href="#/log/training">Log</a>`}
       </div>` : null}
@@ -138,8 +139,8 @@ export function HomeView() {
     <${Card} title="Training" action=${html`<span class="muted small">Last 8 weeks</span>`}>
       <div class="chart-title">Lifting sessions per week</div>
       <${BarChart} data=${liftWeeks} target=${s.goals.workouts} targetLabel=${`Goal ${s.goals.workouts}`} color="var(--teal)" unit=" sessions" height=${130} defaultSel=${7} />
-      <div class="chart-title" style="margin-top:14px">Run miles per week</div>
-      <${BarChart} data=${mileWeeks} target=${s.goals.cardioMiles} targetLabel=${`Goal ${s.goals.cardioMiles} mi`} color="var(--sky)" unit=" mi" height=${130} fmt=${(v) => fmtNum(v, 1)} defaultSel=${7} />
+      <div class="chart-title" style="margin-top:14px">Runs per week</div>
+      <${BarChart} data=${runWeeks} target=${s.goals.runs || 2} targetLabel=${`Goal ${s.goals.runs || 2}`} color="var(--sky)" unit=" runs" height=${130} defaultSel=${7} />
     </${Card}>
 
     <!-- Trends: one filter row scopes everything below -->

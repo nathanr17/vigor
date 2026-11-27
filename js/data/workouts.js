@@ -110,12 +110,22 @@ export const CARDIO_TYPES = [
 export const CARDIO_BY_ID = Object.fromEntries(CARDIO_TYPES.map((c) => [c.id, c]));
 
 // Suggested training week (shown on Home + Training guide)
+// Sundays are always rest. 4 lifting days + 1–2 easy runs.
 export const WEEK_PLAN = [
   { day: 'Mon', lift: 'push', cardio: null, note: 'Push day' },
-  { day: 'Tue', lift: 'pelvic', cardio: 'easy', note: 'Zone 2 run 30–40 min' },
+  { day: 'Tue', lift: 'pelvic', cardio: 'easy', note: 'Easy run 20–30 min. Run/walk is perfectly fine.' },
   { day: 'Wed', lift: 'pull', cardio: null, note: 'Pull day' },
   { day: 'Thu', lift: 'legs', cardio: null, note: 'Leg day' },
-  { day: 'Fri', lift: 'pelvic', cardio: 'intervals', note: 'Intervals: 6–8 × 1 min hard / 2 min easy' },
+  { day: 'Fri', lift: 'pelvic', cardio: 'easy', optional: true, note: 'Optional 2nd easy run, or a brisk 30-min walk' },
   { day: 'Sat', lift: 'upper', cardio: null, note: 'Upper day' },
-  { day: 'Sun', lift: null, cardio: 'long', note: 'Long easy run 45–60 min, or rest' },
+  { day: 'Sun', lift: null, cardio: null, rest: true, note: 'Rest day: recover, sleep in, prep meals for the week' },
+];
+
+export const BEGINNER_RUNNING = [
+  'Go slow enough to talk in full sentences. If you can\'t, walk until you can.',
+  'Weeks 1–2: alternate 1 min running / 2 min walking, 8 rounds (24 min).',
+  'Weeks 3–4: 2 min run / 1 min walk, 8 rounds.',
+  'Weeks 5–6: 4 min run / 1 min walk, 5 rounds.',
+  'Weeks 7–8: run 20–30 min continuously at an easy pace.',
+  'Run the day after an upper-body day, not before legs. Get fitted for shoes; at 6\'4" it matters.',
 ];

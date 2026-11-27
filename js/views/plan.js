@@ -168,7 +168,7 @@ function PrepTab({ wk }) {
   return html`<div>
     ${batch.length ? html`<${Card} title="Batch cook" action=${html`<span class="muted small">~${Math.round(totalMins / 15) * 15} min</span>`}>
       ${batch.map(row)}
-      <p class="muted small">Tip: start the rice and roasting trays first, then cook proteins while they go. Cool food before lidding. It keeps 4 days in the fridge, so freeze the Thursday–Sunday portions or do a second mini-prep midweek.</p>
+      <p class="muted small">Sunday is your rest day, which makes it a natural prep day. Start the rice and roasting trays first, then cook proteins while they go. Cool food before lidding. It keeps 4 days in the fridge, so freeze the Thursday–Sunday portions or do a second mini-prep midweek.</p>
     </${Card}>` : null}
     ${fresh.length ? html`<${Card} title="Make fresh">${fresh.map(row)}</${Card}>` : null}
   </div>`;
@@ -247,7 +247,7 @@ function GroceryTab({ wk }) {
           <button class="icon-btn sm" onClick=${() => actions.removeGroceryExtra(wk, e.id)} aria-label="Remove"><${Icon} name="x" size=${16} /></button>
         </div>`)}
         <form class="extra-form" onSubmit=${addExtra}>
-          <input class="text-input" placeholder="Add an item (paper towels, coffee…)" value=${extra} onInput=${(e) => setExtra(e.target.value)} />
+          <input class="text-input" placeholder="Add an item (paper towels, foil…)" value=${extra} onInput=${(e) => setExtra(e.target.value)} />
           <button class="btn secondary sm" type="submit">Add</button>
         </form>
       </div>

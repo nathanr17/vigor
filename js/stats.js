@@ -1,6 +1,6 @@
 // Derived numbers for the dashboard, logs and insights.
 import { S } from './store.js';
-import { computeTargets, analyze, RECIPE_BY_ID, ING, FODMAP_GROUPS } from './nutrition.js';
+import { computeTargets, analyze, RECIPE_BY_ID, RECIPES, ING, FODMAP_GROUPS, excludedIn } from './nutrition.js';
 import { addDays, todayISO, weekStart, weekDays } from './util.js';
 import { CARDIO_BY_ID } from './data/workouts.js';
 
@@ -29,6 +29,7 @@ export function weekSummary(wk = weekStart()) {
   const pelvic = s.workouts.filter((w) => days.has(w.date) && w.templateId === 'pelvic').length
     + Object.entries(s.habits).filter(([d, h]) => days.has(d) && h.kegels).length;
   const cardio = s.cardio.filter((c) => days.has(c.date));
+  const runs = cardio.filter(isRun).length;
   const miles = cardio.filter(isRun).reduce((a, c) => a + (Number(c.miles) || 0), 0);
   const cardioMins = cardio.reduce((a, c) => a + (Number(c.sec) || 0) / 60, 0);
   const t = targets();
@@ -37,7 +38,7 @@ export function weekSummary(wk = weekStart()) {
   const avgKcal = loggedDays.length ? loggedDays.reduce((a, d) => a + intakeOn(d).kcal, 0) / loggedDays.length : 0;
   const avgP = loggedDays.length ? loggedDays.reduce((a, d) => a + intakeOn(d).p, 0) / loggedDays.length : 0;
   const volume = lifts.reduce((a, w) => a + workoutVolume(w), 0);
-  return { lifts: lifts.length, pelvic, miles, cardioMins, cardioCount: cardio.length, proteinHits, loggedDays: loggedDays.length, avgKcal, avgP, volume };
+  return { lifts: lifts.length, pelvic, runs, miles, cardioMins, cardioCount: cardio.length, proteinHits, loggedDays: loggedDays.length, avgKcal, avgP, volume };
 }
 
 export function workoutVolume(w) {
@@ -144,7 +145,15 @@ export function avoidSet() {
     r[m.recipeId] ??= 0;
     r[m.recipeId] += m.reaction.rating === 'bad' ? 1 : m.reaction.rating === 'good' ? -1 : 0;
   }
-  return new Set(Object.entries(r).filter(([, v]) => v > 0).map(([k]) => k));
+  const out = new Set(Object.entries(r).filter(([, v]) => v > 0).map(([k]) => k));
+  const ex = S().settings.excluded || [];
+  for (const rec of RECIPES) if (excludedIn(rec, ex).length) out.add(rec.id);
+  return out;
+}
+
+/** True if the recipe contains a food the user has excluded. */
+export function isExcluded(r) {
+  return excludedIn(r, S().settings.excluded || []).length > 0;
 }
 
 export function streak() {

@@ -6,7 +6,7 @@ const KEY = 'vigor:v1';
 export const defaultState = () => ({
   v: 1,
   profile: { onboarded: false, name: '', age: '', heightIn: '', weightLb: '', sex: 'male', activity: 'moderate', goal: 'lean_bulk', overrides: {} },
-  goals: { workouts: 4, cardioMiles: 10, cardioMins: 150 },
+  goals: { workouts: 4, runs: 2 },
   plans: {}, // weekKey -> { days: { 0..6: { slotId: { id, servings } } }, prepped: { recipeId: true } }
   grocery: {}, // weekKey -> { checked: { key: true }, extras: [{ id, name, checked }] }
   meals: [], // { id, date, slot, recipeId?, name, servings, kcal, p, c, f, fib, reaction? }
@@ -17,7 +17,7 @@ export const defaultState = () => ({
   weights: [], // { date, lb }
   favorites: [],
   active: null, // workout in progress
-  settings: { planLowFodmap: true, restSec: 90 },
+  settings: { planLowFodmap: true, restSec: 90, excluded: [] }, // excluded: ingredient keys you don't eat
   backupAt: null,
   createdAt: Date.now(),
 });

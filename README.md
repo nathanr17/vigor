@@ -4,12 +4,14 @@ A personal fitness, nutrition and gut-health app for iPhone. It's an installable
 
 ## Features
 
-- **Home dashboard:** today's calories and macros, water and pelvic-floor habits, today's menu with one-tap logging, weekly goals, and charts for training, run miles, calories, protein, energy/gut comfort and body weight.
+- **Home dashboard:** today's calories and macros, water and pelvic-floor habits, today's menu with one-tap logging, weekly goals, and charts for lifting sessions, runs per week, calories, protein, energy/gut comfort and body weight.
 - **Weekly planning:** auto-plan a week from a few meal-prep-friendly recipes (servings are scaled to your targets), or fill each slot yourself. There are 6 slots a day: breakfast, three snacks, lunch and dinner. You can also copy a day across the week.
 - **Prep list:** what to batch-cook, how many servings, and the batch multiplier.
 - **Grocery list:** every planned ingredient totaled, converted to store units and grouped by aisle, with checkboxes, extras and Share (to Notes or Reminders).
 - **66 recipes:** breakfasts, lunches/dinners, snacks and shakes. Macros are computed from an ingredient database (USDA-based). Each recipe has a FODMAP rating (Low / Moderate / High) based on per-serving portion thresholds, the flagged ingredients, low-FODMAP swaps, and "vitality" highlights (nitrates, zinc, omega-3, flavonoids, vitamin D, magnesium, selenium, citrulline).
 - **Logging:** meals (recipe, quick add or recent), workouts (full-gym templates, sets pre-filled from last session, rest timer, progressive-overload hints, PR detection), runs/cardio with pace, daily check-ins (energy, mood, drive, stress, sleep, gut comfort, symptoms, Bristol scale, journal) and body weight.
+- **Training plan:** push / pull / legs / upper on Mon, Wed, Thu and Sat, 1–2 easy runs (Tue, optional Fri) with a beginner run/walk progression, pelvic-floor work, and Sundays always off.
+- **Foods I don't eat:** a setting that hides every recipe containing an ingredient you exclude (library, picker and auto-planner).
 - **Gut journal and insights:** rate how each meal sat with you. Insights rank possible trigger foods, FODMAP groups and ingredients against your baseline, and the auto-planner skips recipes that keep causing problems.
 - **Guides:** an evidence-rated product and supplement guide, snack ideas, a vitality habits guide, an IBS/FODMAP guide, and a training plan.
 

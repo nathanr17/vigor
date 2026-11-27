@@ -208,7 +208,6 @@ I('canned_tomatoes', 'Diced tomatoes, canned (no onion/garlic)', 'pantry', [24, 
   buy: 'can', fod: { g: 110, lvl: 'mod', groups: ['fructose'], note: 'Low-FODMAP at about 1/2 cup per serving.' },
 });
 I('tomato_paste', 'Tomato paste', 'pantry', [82, 4.3, 19, 0.5, 4.1], { tbsp: 16 }, { buy: 'tbsp' });
-I('tuna', 'Tuna in water, canned', 'pantry', [116, 25.5, 0, 0.8, 0], { can: 120 }, { buy: 'can', vit: ['selenium'], vmin: 60 });
 I('salmon_canned', 'Wild salmon, canned', 'pantry', [136, 23, 0, 5, 0], { can: 150 }, { buy: 'can', vit: ['omega3', 'vitD'], vmin: 85 });
 I('chickpeas', 'Chickpeas, canned (rinsed)', 'pantry', [139, 7.1, 22.5, 2.6, 6.2], { can: 250, cup: 164 }, {
   buy: 'can', fod: { g: 42, lvl: 'mod', groups: ['gos'], note: 'Canned & rinsed chickpeas are low-FODMAP up to 1/4 cup (42 g).' },
